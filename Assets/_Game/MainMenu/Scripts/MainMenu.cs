@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
 
-	public GameObject menuPanel, optionPanel;
+	public GameObject menuPanel, optionPanel, fade;
 	// Use this for initialization
 	void Start () {
 		
@@ -17,8 +17,21 @@ public class MainMenu : MonoBehaviour {
 		
 	}
 
+	public void PlaySound(int n){
+		switch (n) {
+		case 0:
+			//Play Select Sound
+			break;
+		case 1:
+			//Play click sound
+			break;
+		default:
+			break;
+		}
+	}
+
 	public void IniciarJuego(){
-		//SceneManager.LoadScene ("Game", LoadSceneMode.Single);
+		SceneManager.LoadScene ("MainGameScene", LoadSceneMode.Single);
 	}
 
 	public void OpcionesIn(){
@@ -32,6 +45,11 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	public void Salir(){
+		StartCoroutine ("Exit");
+	}
+
+	IEnumerator Exit(){
+		yield return new WaitForSeconds (1f);
 		#if UNITY_EDITOR
 		UnityEditor.EditorApplication.isPlaying = false;
 		#else
