@@ -14,7 +14,10 @@ public class MainMenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (Input.GetKey (KeyCode.A)) {
+			Debug.Log ("a click");
+		}
+
 	}
 
 	public void PlaySound(int n){
