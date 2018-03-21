@@ -34,13 +34,15 @@ public class naveMovement : MonoBehaviour {
 		transform.position = tempPos;
 
 ///----------------------------------------------------------------------------------------------
-		/*Vector3 rigVel = rigi.velocity;
-		Quaternion pivrot = piv_.transform.localRotation;
-		playerVel = rigi.velocity.x;
+	}
 
-		if (Input.GetAxis ("Vertical")) {
-			holdTime += acceleration;
-			T_Active = true;
-		}*/
+	public void Jump()
+	{
+
+	}
+
+	public void Shoot()
+	{
+
 	}
 }
