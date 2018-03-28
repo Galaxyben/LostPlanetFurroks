@@ -10,7 +10,7 @@ namespace Mangos {
 		void Awake(){
 			StaticManager.inputManager = this;
 		}
-
+			
 		void Update(){
 			switch (StaticManager.gameManager.gameState) {
 
