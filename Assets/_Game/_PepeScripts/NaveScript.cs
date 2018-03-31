@@ -7,8 +7,8 @@ public class NaveScript : MonoBehaviour {
 	[Tooltip("Lugar dónde saldran los disparos")]
 	public GameObject ShootingPlace;
 	public Rigidbody Bullet;
-	private float bulletvel = 10.0f;
-	public float movementSpeed = 8.0f;
+	private float bulletvel = 50.0f;
+	private float movementSpeed = 10.0f;
 	Rigidbody rigi;
 
 	// Use this for initialization
@@ -18,7 +18,14 @@ public class NaveScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position += new Vector3 (Input.GetAxis ("Horizontal"),Input.GetAxis ("Vertical"), 0)*movementSpeed*Time.deltaTime;
+		float Movement_H = Input.GetAxis ("Horizontal");
+		float Movement_V = Input.GetAxis ("Vertical");
+
+		Vector3 direction = new Vector3 (Movement_H, Movement_V, 0);
+		Vector3 FDir = new Vector3 (Movement_H, Movement_V, 1.0f);
+
+		transform.position += direction * movementSpeed * Time.deltaTime;
+		transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (FDir), Mathf.Deg2Rad * 50.0f);
 
 		if (Input.GetButtonDown ("Fire1")) {
 			Rigidbody newBullet = Instantiate (Bullet, transform.position, Bullet.rotation) as Rigidbody;
