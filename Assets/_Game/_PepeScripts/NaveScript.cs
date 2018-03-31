@@ -28,7 +28,7 @@ public class NaveScript : MonoBehaviour {
 		transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (FDir), Mathf.Deg2Rad * 50.0f);
 
 		if (Input.GetButtonDown ("Fire1")) {
-			Rigidbody newBullet = Instantiate (Bullet, transform.position, Bullet.rotation) as Rigidbody;
+			Rigidbody newBullet = Instantiate (Bullet, transform.position, transform.rotation) as Rigidbody;
 			newBullet.AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 		}
 	}
