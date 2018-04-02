@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossCenter : MonoBehaviour {
+public class BossCenter : MonoBehaviour
+{
+	public GameObject bulletPrefab;
 
-	// Use this for initialization
-	void Start () {
-		Mangos.PoolManager.PreSpawn (GetComponentInChildren<BossMiniTurret>().bullet, 20);
+
+	void Start () {		
+		Mangos.PoolManager.PreSpawn (bulletPrefab, 40);
+		Mangos.PoolManager.SetPoolLimit (bulletPrefab, 500);
+
 	}
 	
 	// Update is called once per frame

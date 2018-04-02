@@ -19,7 +19,8 @@ public class BossMiniTurret : MonoBehaviour {
 	public void Fire(){
 		if (isAlive) { 
 			Transform go = Mangos.PoolManager.Spawn (bullet, transform.position, Quaternion.identity);
-			go.gameObject.GetComponent<Rigidbody> ().AddForce (Vector3.up * 10, ForceMode.Impulse);
+			if(go)
+				go.gameObject.GetComponent<Rigidbody> ().AddForce ((go.position - GetComponentInParent<BossCenter>().gameObject.transform.position)* 10, ForceMode.Impulse);
 		}
 	}
 }
