@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Mangos {
 public class NaveScript : MonoBehaviour {
 	public GameObject Nave;
 	[Tooltip("Lugar dónde saldran los disparos")]
@@ -16,7 +17,11 @@ public class NaveScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+
+	}
+
+	void Awake(){
+		StaticManager.playerShip = this;
 	}
 	
 	// Update is called once per frame
@@ -34,12 +39,16 @@ public class NaveScript : MonoBehaviour {
 			Rigidbody newBullet = Instantiate (Bullet, transform.position, transform.rotation) as Rigidbody;
 			newBullet.AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 		}
+				
+	}
 
-		if ((Movement_H <= -0.05 && Input.GetKeyDown (KeyCode.JoystickButton2)) || (Movement_H <= -0.05 && Input.GetKeyDown (KeyCode.Q))) {
+	public void Dash(float xAxis, float yAxis){
+		if ((xAxis <= -0.05)) {
 			rigi.AddRelativeForce (Vector3.left * 30, ForceMode.Impulse);
 		}
-		if (Movement_H >= 0.05 && Input.GetKeyDown (KeyCode.JoystickButton2)) {
-			rigi.AddRelativeForce (Vector3.right * 30, ForceMode.Impulse);
+		if (yAxis >= 0.05) {
+			rigi.AddRelativeForce (Vector3.right * 30, ForceMode.Force);
 		}
 	}
+}
 }
