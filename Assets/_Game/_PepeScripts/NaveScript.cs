@@ -7,9 +7,12 @@ public class NaveScript : MonoBehaviour {
 	[Tooltip("Lugar dónde saldran los disparos")]
 	public GameObject ShootingPlace;
 	public Rigidbody Bullet;
+	private int bulletForce = 10;
+	private int bombForce = 15;
+	private int life = 100;
 	private float bulletvel = 50.0f;
 	private float movementSpeed = 10.0f;
-	Rigidbody rigi;
+	public Rigidbody rigi;
 
 	// Use this for initialization
 	void Start () {
@@ -30,6 +33,13 @@ public class NaveScript : MonoBehaviour {
 		if (Input.GetButtonDown ("Fire1")) {
 			Rigidbody newBullet = Instantiate (Bullet, transform.position, transform.rotation) as Rigidbody;
 			newBullet.AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
+		}
+
+		if ((Movement_H <= -0.05 && Input.GetKeyDown (KeyCode.JoystickButton2)) || (Movement_H <= -0.05 && Input.GetKeyDown (KeyCode.Q))) {
+			rigi.AddRelativeForce (Vector3.left * 30, ForceMode.Impulse);
+		}
+		if (Movement_H >= 0.05 && Input.GetKeyDown (KeyCode.JoystickButton2)) {
+			rigi.AddRelativeForce (Vector3.right * 30, ForceMode.Impulse);
 		}
 	}
 }

@@ -25,13 +25,7 @@ namespace Mangos {
 				break;
 
 			case GameState.mainGame:
-				float velocity = 8.0f;
-				if (JS_v >= 0.05) {
-					///Si el joystick va hacia arriba
-					transform.position += (new Vector3(JS_h, 0, JS_v))*velocity*Time.deltaTime;
-				} else if (JS_v <= -0.05) {
-
-				}
+				
 				break;
 
 			case GameState.pause:
