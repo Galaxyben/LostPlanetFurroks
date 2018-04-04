@@ -13,12 +13,12 @@ public class NaveScript : MonoBehaviour {
 	private int life;
 	private float bulletvel;
 	private float movementSpeed;
+	private float impulse = 30.0f;
 	public int gunType;
 	public Rigidbody rigi;
 
-	// Use this for initialization
 	void Start () {
-			life = 1000;
+			life = 100;
 			bulletForce = 10;
 			bombForce = 30;
 			bulletvel = 50.0f;
@@ -36,19 +36,29 @@ public class NaveScript : MonoBehaviour {
 	}
 
 	public void Dash(float xAxis, float yAxis){
-		if ((xAxis <= -0.05)) {
-			rigi.AddRelativeForce (Vector3.left * 30, ForceMode.Impulse);
-		}
-		if (yAxis >= 0.05) {
-			rigi.AddRelativeForce (Vector3.right * 30, ForceMode.Force);
-		}
+			if ((xAxis <= -0.05)) {
+				Vector3 direction = new Vector3 (xAxis, 0, 0);
+				transform.position += direction * movementSpeed * Time.deltaTime * impulse;
+			}
+			if ((xAxis >= 0.05)) {
+				Vector3 direction = new Vector3 (xAxis, 0, 0);
+				transform.position += direction * movementSpeed * Time.deltaTime * impulse;
+			}
+			if (yAxis >= 0.05) {
+					Vector3 direction = new Vector3 (0, yAxis, 0);
+					transform.position += direction * movementSpeed * Time.deltaTime * impulse;
+			}
+			if (yAxis <= -0.05) {
+				Vector3 direction = new Vector3 (0, yAxis, 0);
+				transform.position += direction * movementSpeed * Time.deltaTime * impulse;
+			}
 	}
 
 	public void Movement(float xAxis, float yAxis){
 		Vector3 direction = new Vector3 (xAxis, yAxis, 0);
-		Vector3 FDir = new Vector3 (xAxis, yAxis, 1.0f);
+			Vector3 FDir = new Vector3 (xAxis, yAxis, 1.0f);
 		transform.position += direction * movementSpeed * Time.deltaTime;
-		transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (FDir), Mathf.Deg2Rad * 50.0f);
+		transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (FDir), Mathf.Deg2Rad * 70.0f);
 	}
 	
 		public void Shoot(){
@@ -60,10 +70,11 @@ public class NaveScript : MonoBehaviour {
 			case 2://Dual Gun Shot
 
 				break;
-			case 3:
-
+			case 3://Cannon Shot
+				Rigidbody newBulletCS = Instantiate (Bullet, transform.position, transform.rotation) as Rigidbody;
+				newBulletCS.AddForce (transform.forward * bulletvel/2, ForceMode.VelocityChange);
 				break;
-			case 4:
+			case 4://Homming Shot
 
 				break;
 			default:
