@@ -6,8 +6,6 @@ namespace Mangos {
 	public class InputManager : MonoBehaviour {
 		/// Manager Operating Scripts
 		KeyCode A = KeyCode.K, X = KeyCode.I, B = KeyCode.J, Y = KeyCode.U;
-		float JS_h = Input.GetAxis("Horizontal");
-		float JS_v = Input.GetAxis("Vertical");
 
 		//ForceMode.
 
@@ -25,10 +23,19 @@ namespace Mangos {
 				break;
 
 			case GameState.mainGame:
+
+				///--------SECCION MOVIMIENTO Y DISPARO PERSONAJE PRINCIPAL---------------
 				float Movement_H = Input.GetAxis ("Horizontal");
 				float Movement_V = Input.GetAxis ("Vertical");
 				if (Input.GetKeyDown (KeyCode.Q)) {
 					StaticManager.playerShip.Dash (Movement_H, Movement_V);
+				}
+				StaticManager.playerShip.Movement (Movement_H, Movement_V);
+				if (Input.GetButtonDown ("Fire1")) {
+					StaticManager.playerShip.Shoot ();
+				}
+				if (Input.GetKeyDown (KeyCode.JoystickButton3)) {
+					StaticManager.playerShip.gunType += 1;
 				}
 				break;
 

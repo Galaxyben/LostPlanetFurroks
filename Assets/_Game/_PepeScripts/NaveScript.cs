@@ -8,16 +8,22 @@ public class NaveScript : MonoBehaviour {
 	[Tooltip("Lugar dónde saldran los disparos")]
 	public GameObject ShootingPlace;
 	public Rigidbody Bullet;
-	private int bulletForce = 10;
-	private int bombForce = 15;
-	private int life = 100;
-	private float bulletvel = 50.0f;
-	private float movementSpeed = 10.0f;
+	private int bulletForce;
+	private int bombForce;
+	private int life;
+	private float bulletvel;
+	private float movementSpeed;
+	public int gunType;
 	public Rigidbody rigi;
 
 	// Use this for initialization
 	void Start () {
-
+			life = 1000;
+			bulletForce = 10;
+			bombForce = 30;
+			bulletvel = 50.0f;
+			movementSpeed = 10.0f;
+			gunType = 1;
 	}
 
 	void Awake(){
@@ -26,20 +32,7 @@ public class NaveScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		float Movement_H = Input.GetAxis ("Horizontal");
-		float Movement_V = Input.GetAxis ("Vertical");
-
-		Vector3 direction = new Vector3 (Movement_H, Movement_V, 0);
-		Vector3 FDir = new Vector3 (Movement_H, Movement_V, 1.0f);
-
-		transform.position += direction * movementSpeed * Time.deltaTime;
-		transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (FDir), Mathf.Deg2Rad * 50.0f);
-
-		if (Input.GetButtonDown ("Fire1")) {
-			Rigidbody newBullet = Instantiate (Bullet, transform.position, transform.rotation) as Rigidbody;
-			newBullet.AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
-		}
-				
+			
 	}
 
 	public void Dash(float xAxis, float yAxis){
@@ -50,5 +43,33 @@ public class NaveScript : MonoBehaviour {
 			rigi.AddRelativeForce (Vector3.right * 30, ForceMode.Force);
 		}
 	}
+
+	public void Movement(float xAxis, float yAxis){
+		Vector3 direction = new Vector3 (xAxis, yAxis, 0);
+		Vector3 FDir = new Vector3 (xAxis, yAxis, 1.0f);
+		transform.position += direction * movementSpeed * Time.deltaTime;
+		transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (FDir), Mathf.Deg2Rad * 50.0f);
+	}
+	
+		public void Shoot(){
+			switch (gunType) {
+			case 1: //First Typical Gun
+				Rigidbody newBullet = Instantiate (Bullet, transform.position, transform.rotation) as Rigidbody;
+				newBullet.AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
+				break;
+			case 2://Dual Gun Shot
+
+				break;
+			case 3:
+
+				break;
+			case 4:
+
+				break;
+			default:
+				gunType = 1;
+				break;
+			}
+		}
 }
 }
