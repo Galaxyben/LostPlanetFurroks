@@ -6,6 +6,8 @@ public class BossMiniTurret : MonoBehaviour {
 
 	bool isAlive = true;
 	public GameObject bullet;
+	public int id;
+	public char Group;
 	// Use this for initialization
 	void Start () {
 		
@@ -20,7 +22,7 @@ public class BossMiniTurret : MonoBehaviour {
 		if (isAlive) { 
 			Transform go = Mangos.PoolManager.Spawn (bullet, transform.position, Quaternion.identity);
 			if(go)
-				go.gameObject.GetComponent<Rigidbody> ().AddForce ((go.position - GetComponentInParent<BossCenter>().gameObject.transform.position)* 10, ForceMode.Impulse);
+				go.gameObject.GetComponent<Rigidbody> ().AddForce ((go.position - GetComponentInParent<BossCenter>().gameObject.transform.position)* 5, ForceMode.Impulse);
 		}
 	}
 }

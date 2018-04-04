@@ -8,8 +8,8 @@ public class BossCenter : MonoBehaviour
 
 
 	void Start () {		
-		Mangos.PoolManager.PreSpawn (bulletPrefab, 40);
-		Mangos.PoolManager.SetPoolLimit (bulletPrefab, 500);
+		Mangos.PoolManager.PreSpawn (bulletPrefab, 500);
+		Mangos.PoolManager.SetPoolLimit (bulletPrefab, 1500);
 
 	}
 	
