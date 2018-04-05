@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Mangos {
 	public class InputManager : MonoBehaviour {
 		/// Manager Operating Scripts
-		KeyCode A = KeyCode.K, X = KeyCode.I, B = KeyCode.J, Y = KeyCode.U;
+			KeyCode A = KeyCode.K, X = KeyCode.I, B = KeyCode.J, Y = KeyCode.U;
 
 		//ForceMode.
 
@@ -34,7 +34,7 @@ namespace Mangos {
 				if (Input.GetButtonDown ("Fire1")) {
 					StaticManager.playerShip.Shoot ();
 				}
-				if (Input.GetKeyDown (KeyCode.JoystickButton3)) {
+				if ((Input.GetKeyDown (KeyCode.JoystickButton3))||(Input.GetKeyDown(KeyCode.E))) {
 					StaticManager.playerShip.gunType += 1;
 				}
 				break;

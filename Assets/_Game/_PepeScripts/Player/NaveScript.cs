@@ -7,13 +7,15 @@ public class NaveScript : MonoBehaviour {
 	public GameObject Nave;
 	[Tooltip("Lugar dónde saldran los disparos")]
 	public GameObject ShootingPlace;
+	public GameObject DGun1;
+	public GameObject DGun2;
 	public Rigidbody Bullet;
 	private int bulletForce;
 	private int bombForce;
 	private int life;
 	private float bulletvel;
 	private float movementSpeed;
-	private float impulse = 30.0f;
+	private float impulse = 5.0f;
 	public int gunType;
 	public Rigidbody rigi;
 
@@ -32,7 +34,9 @@ public class NaveScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-			
+			if (gunType == 5){
+				gunType = 1;
+			}
 	}
 
 	public void Dash(float xAxis, float yAxis){
@@ -56,7 +60,7 @@ public class NaveScript : MonoBehaviour {
 
 	public void Movement(float xAxis, float yAxis){
 		Vector3 direction = new Vector3 (xAxis, yAxis, 0);
-			Vector3 FDir = new Vector3 (xAxis, yAxis, 1.0f);
+		Vector3 FDir = new Vector3 (xAxis, yAxis, 1.0f);
 		transform.position += direction * movementSpeed * Time.deltaTime;
 		transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (FDir), Mathf.Deg2Rad * 70.0f);
 	}
@@ -64,17 +68,24 @@ public class NaveScript : MonoBehaviour {
 		public void Shoot(){
 			switch (gunType) {
 			case 1: //First Typical Gun
-				Rigidbody newBullet = Instantiate (Bullet, transform.position, transform.rotation) as Rigidbody;
-				newBullet.AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
+				bulletvel = 40.0f;
+				Rigidbody TypicBullet = Instantiate (Bullet, ShootingPlace.transform.position, ShootingPlace.transform.rotation) as Rigidbody;
+				TypicBullet.AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 				break;
 			case 2://Dual Gun Shot
-
+				bulletvel = 60.0f;
+				Rigidbody DBullet1 = Instantiate (Bullet, DGun1.transform.position, DGun1.transform.rotation) as Rigidbody;
+				DBullet1.AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
+				Rigidbody DBullet2 = Instantiate (Bullet, DGun2.transform.position, DGun2.transform.rotation) as Rigidbody;
+				DBullet2.AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 				break;
 			case 3://Cannon Shot
-				Rigidbody newBulletCS = Instantiate (Bullet, transform.position, transform.rotation) as Rigidbody;
+				bulletvel = 20.0f;
+				Rigidbody newBulletCS = Instantiate (Bullet, ShootingPlace.transform.position, ShootingPlace.transform.rotation) as Rigidbody;
 				newBulletCS.AddForce (transform.forward * bulletvel/2, ForceMode.VelocityChange);
 				break;
 			case 4://Homming Shot
+				bulletvel = 60.0f;
 
 				break;
 			default:
