@@ -5,7 +5,7 @@ using UnityEngine;
 public class BossCenter : MonoBehaviour
 {
 	public GameObject bulletPrefab;
-
+	public float FireRate;
 
 	void Start () {		
 		Mangos.PoolManager.PreSpawn (bulletPrefab, 500);
