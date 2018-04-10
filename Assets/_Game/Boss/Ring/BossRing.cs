@@ -4,17 +4,28 @@ using UnityEngine;
 
 public class BossRing : MonoBehaviour {
 
-	public Rigidbody rigi;
+	public Rigidbody ringRigi;
+	public Rigidbody centerRigi;
 	public float RotationSpeed;
 	public float RotationAccel;
 	public float angDragMag;
+	public float FirePower;
+	public float BarrageDelay;
+	public int BarrageRounds;
 	public Transform objective;
+	public float updateDirTime;
+	float ogUpdateDirTime;
+	Vector3 goingTo;
 	Vector3 lookinAt;
 	Transform generalDirection;
+	public float Vel;
 	// Use this for initialization
 	void Start () {
 		lookinAt = objective.position;
 		generalDirection = GameObject.Find ("RingParent").transform;
+		goingTo = objective.transform.position;
+		ogUpdateDirTime = updateDirTime;
+		centerRigi = GetComponent<Rigidbody> ();
 		//rigi.AddTorque (0.0f, RotationSpeed, 0.0f, ForceMode.Impulse);
 	}
 	
@@ -29,29 +40,48 @@ public class BossRing : MonoBehaviour {
 		if (Input.GetKey (KeyCode.L))
 			FireLine ();
 
+		if(Input.GetKeyDown (KeyCode.B))
+			FireBarrage();
+
 		if (Input.GetKeyDown (KeyCode.DownArrow))
 			RotationSpeed -= 1;
 
 		if (Input.GetKeyDown (KeyCode.UpArrow))
 			RotationSpeed += 1;
 
-		if (rigi.angularVelocity.magnitude <= RotationSpeed && rigi.angularVelocity.magnitude > 0) {
-			rigi.AddTorque (Mathf.Sin(generalDirection.up.x) * RotationAccel, Mathf.Cos(generalDirection.up.y) * RotationAccel, Mathf.Sin(generalDirection.up.z) * RotationAccel);
-		} else if (rigi.angularVelocity.magnitude >= 0) {
-			rigi.AddTorque (0.0f, -RotationAccel, 0.0f);
+		Rotate ();
+
+		Move ();
+
+		angDragMag = ringRigi.angularVelocity.magnitude;
+	}
+
+	public void Move(){
+		gameObject.transform.Translate (0f, (-gameObject.transform.position.y + objective.transform.position.y)*0.7f*Time.deltaTime , 0f);
+
+		centerRigi.AddForce ((goingTo - gameObject.transform.position)*Time.deltaTime * Vel);
+
+		updateDirTime -= Time.deltaTime;
+
+		if (updateDirTime <= 0) {
+			updateDirTime = ogUpdateDirTime;
+			UpdateGoingTo ();
 		}
-			
-		lookinAt += ((objective.position - lookinAt) * 0.6f * Time.deltaTime);
 
-		generalDirection.LookAt (lookinAt); 
+	}
 
-		angDragMag = rigi.angularVelocity.magnitude;
+	public void Rotate(){
+		if (ringRigi.angularVelocity.magnitude < RotationSpeed && ringRigi.angularVelocity.magnitude >= 0) {
+			ringRigi.AddTorque (Vector3.up * RotationAccel * Time.deltaTime, ForceMode.Force);
+		} else if (ringRigi.angularVelocity.magnitude >= 0 && ringRigi.angularVelocity.magnitude > RotationSpeed) {
+			ringRigi.AddTorque (0.0f, -RotationAccel * Time.deltaTime, 0.0f, ForceMode.Force);
+		}
 	}
 
 	public void FireAll(){ 
 		BossMiniTurret[] arr = GetComponentsInChildren<BossMiniTurret> ();
 		for (int i = 0; i < arr.Length; i++) {
-			arr [i].Fire (5f);
+			arr [i].Fire (FirePower);
 		}
 			
 	}
@@ -60,7 +90,7 @@ public class BossRing : MonoBehaviour {
 		BossMiniTurret[] arr = GetComponentsInChildren<BossMiniTurret> ();
 		for (int i = 0; i < arr.Length; i++) {
 			if(arr[i].id == id && arr[i].Group == grup)
-				arr [i].Fire (5f);
+				arr [i].Fire (FirePower);
 		}
 	}
 
@@ -73,9 +103,18 @@ public class BossRing : MonoBehaviour {
 		Transform center = GetComponentInParent<BossCenter> ().transform;
 		for (int i = 0; i < arr.Length; i++) {
 			if ((arr [i].gameObject.transform.position - center.position).x < 1.2 && (arr [i].gameObject.transform.position - center.position).x > 0.8f) {
-				arr [i].Fire (5f);
+				arr [i].Fire (FirePower);
 			}
 		}
+	}
+
+	public void FireBarrage(){
+		StartCoroutine ("fireBarrageCoroutine");
+	}
+
+	public void UpdateGoingTo(){
+		goingTo = objective.transform.position;
+		Debug.Log ("updated goiung to");
 	}
 
 	IEnumerator fireStarCoroutine(int ite){
@@ -84,7 +123,15 @@ public class BossRing : MonoBehaviour {
 			FireOne ('b', 3);
 			FireOne ('c', 3);
 			FireOne ('d', 3);
-			yield return new WaitForSeconds (0.09f/rigi.angularVelocity.magnitude);
+			yield return new WaitForSeconds (0.09f/ringRigi.angularVelocity.magnitude);
+		}
+	}
+
+	IEnumerator fireBarrageCoroutine(){
+		for(int i = 0; i < BarrageRounds; i++)
+		{
+			FireAll ();
+			yield return new WaitForSeconds(BarrageDelay);
 		}
 	}
 }
