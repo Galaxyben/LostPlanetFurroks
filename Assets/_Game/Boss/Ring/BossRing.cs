@@ -13,8 +13,6 @@ public class BossRing : MonoBehaviour {
 	public float BarrageDelay;
 	public int BarrageRounds;
 	public Transform objective;
-	public float updateDirTime;
-	float ogUpdateDirTime;
 	Vector3 goingTo;
 	Vector3 lookinAt;
 	Transform generalDirection;
@@ -24,7 +22,6 @@ public class BossRing : MonoBehaviour {
 		lookinAt = objective.position;
 		generalDirection = GameObject.Find ("RingParent").transform;
 		goingTo = objective.transform.position;
-		ogUpdateDirTime = updateDirTime;
 		centerRigi = GetComponent<Rigidbody> ();
 		//rigi.AddTorque (0.0f, RotationSpeed, 0.0f, ForceMode.Impulse);
 	}
@@ -51,24 +48,11 @@ public class BossRing : MonoBehaviour {
 
 		Rotate ();
 
-		Move ();
-
 		angDragMag = ringRigi.angularVelocity.magnitude;
+		ringRigi.gameObject.transform.position = gameObject.transform.position;
 	}
-
-	public void Move(){
-		gameObject.transform.Translate (0f, (-gameObject.transform.position.y + objective.transform.position.y)*0.7f*Time.deltaTime , 0f);
-
-		centerRigi.AddForce ((goingTo - gameObject.transform.position)*Time.deltaTime * Vel);
-
-		updateDirTime -= Time.deltaTime;
-
-		if (updateDirTime <= 0) {
-			updateDirTime = ogUpdateDirTime;
-			UpdateGoingTo ();
-		}
-
-	}
+		
+	
 
 	public void Rotate(){
 		if (ringRigi.angularVelocity.magnitude < RotationSpeed && ringRigi.angularVelocity.magnitude >= 0) {
@@ -110,11 +94,6 @@ public class BossRing : MonoBehaviour {
 
 	public void FireBarrage(){
 		StartCoroutine ("fireBarrageCoroutine");
-	}
-
-	public void UpdateGoingTo(){
-		goingTo = objective.transform.position;
-		Debug.Log ("updated goiung to");
 	}
 
 	IEnumerator fireStarCoroutine(int ite){

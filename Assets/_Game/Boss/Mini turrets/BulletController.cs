@@ -22,7 +22,8 @@ public class BulletController : MonoBehaviour {
 
 	void SelfDespawn ()
 	{
-		Mangos.PoolManager.Despawn (gameObject);	
+		Mangos.PoolManager.Despawn (gameObject);
+		OnDespawn ();
 	}
 
 	void Start () 
