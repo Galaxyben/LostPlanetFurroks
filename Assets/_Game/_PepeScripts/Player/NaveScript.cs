@@ -10,6 +10,7 @@ public class NaveScript : MonoBehaviour {
 	public GameObject DGun1;
 	public GameObject DGun2;
 	public Rigidbody Bullet;
+	public Rigidbody HMBullet;
 	private int bulletForce;
 	private int bombForce;
 	private int life;
@@ -20,6 +21,10 @@ public class NaveScript : MonoBehaviour {
 	public Rigidbody rigi;
 
 	void Start () {
+			Mangos.PoolManager.PreSpawn (Bullet.gameObject, 10);
+			Mangos.PoolManager.SetPoolLimit (Bullet.gameObject, 100);
+			Mangos.PoolManager.PreSpawn (HMBullet.gameObject, 10);
+			Mangos.PoolManager.SetPoolLimit (HMBullet.gameObject, 100);
 			life = 100;
 			bulletForce = 10;
 			bombForce = 30;
@@ -69,24 +74,25 @@ public class NaveScript : MonoBehaviour {
 			switch (gunType) {
 			case 1: //First Typical Gun
 				bulletvel = 40.0f;
-				Rigidbody TypicBullet = Instantiate (Bullet, ShootingPlace.transform.position, ShootingPlace.transform.rotation) as Rigidbody;
-				TypicBullet.AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
+				Transform TypicBullet = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
+				TypicBullet.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 				break;
 			case 2://Dual Gun Shot
 				bulletvel = 60.0f;
-				Rigidbody DBullet1 = Instantiate (Bullet, DGun1.transform.position, DGun1.transform.rotation) as Rigidbody;
-				DBullet1.AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
-				Rigidbody DBullet2 = Instantiate (Bullet, DGun2.transform.position, DGun2.transform.rotation) as Rigidbody;
-				DBullet2.AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
+				Transform DBullet1 = Mangos.PoolManager.Spawn (Bullet.gameObject, DGun1.transform.position, DGun1.transform.rotation);
+				DBullet1.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
+				Transform DBullet2 = Mangos.PoolManager.Spawn (Bullet.gameObject, DGun2.transform.position, DGun2.transform.rotation);
+				DBullet2.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 				break;
 			case 3://Cannon Shot
 				bulletvel = 20.0f;
-				Rigidbody newBulletCS = Instantiate (Bullet, ShootingPlace.transform.position, ShootingPlace.transform.rotation) as Rigidbody;
-				newBulletCS.AddForce (transform.forward * bulletvel/2, ForceMode.VelocityChange);
+				Transform newBulletCS = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
+				newBulletCS.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 				break;
 			case 4://Homming Shot
 				bulletvel = 60.0f;
-
+				Transform HommingBullet = Mangos.PoolManager.Spawn (HMBullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
+				HommingBullet.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 				break;
 			default:
 				gunType = 1;
