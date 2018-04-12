@@ -46,8 +46,6 @@ public class BossRing : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.UpArrow))
 			RotationSpeed += 1;
 
-		Rotate ();
-
 		angDragMag = ringRigi.angularVelocity.magnitude;
 		ringRigi.gameObject.transform.position = gameObject.transform.position;
 	}
@@ -94,6 +92,10 @@ public class BossRing : MonoBehaviour {
 
 	public void FireBarrage(){
 		StartCoroutine ("fireBarrageCoroutine");
+	}
+
+	public void FireSeekers(){
+
 	}
 
 	IEnumerator fireStarCoroutine(int ite){
