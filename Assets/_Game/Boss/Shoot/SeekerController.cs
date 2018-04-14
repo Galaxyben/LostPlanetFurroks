@@ -5,14 +5,17 @@ using UnityEngine;
 public class SeekerController : MonoBehaviour {
 
 	public float seekerLifeDuration;
+	public GameObject objective;
+	Rigidbody rigi;
 	// Use this for initialization
 	void Start () {
 		OnSpawn ();
+		rigi = GetComponent<Rigidbody> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		rigi.AddForce (objective.transform.position - transform.position, ForceMode.Force);
 	}
 
 	void OnSpawn (){
@@ -20,7 +23,7 @@ public class SeekerController : MonoBehaviour {
 	}
 
 	void OnDespawn(){
-		
+		SelfDespawn ();
 	}
 
 	void SelfDespawn(){

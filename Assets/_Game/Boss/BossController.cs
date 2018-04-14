@@ -20,10 +20,16 @@ public class BossController : MonoBehaviour {
 	void Start () {
 		centro = GetComponent<BossCenter> ();
 		anillo = GetComponent<BossRing> ();
-		ogFAll = FireAllDelay;
-		ogFStar = FireStarDelay;
-		ogFBarrage = FireBarrageDelay;
-		ogFSeeker = FireSeekersDelay;
+		ogFAll = new float[FireAllDelay.Length];
+		ogFStar = new float[FireStarDelay.Length];
+		ogFBarrage = new float[FireBarrageDelay.Length];
+		ogFSeeker = new float[FireSeekersDelay.Length];
+		for (int i = 0; i < FireAllDelay.Length; i++) {
+			ogFAll [i] = FireAllDelay [i];
+			ogFBarrage [i] = FireBarrageDelay [i];
+			ogFSeeker [i] = FireSeekersDelay [i];
+			ogFStar [i] = FireStarDelay [i];
+		}
 	}
 	
 	// Update is called once per frame
@@ -57,9 +63,9 @@ public class BossController : MonoBehaviour {
 
 	void FireStarCountDown(int lvl){
 		FireStarDelay [lvl] -= Time.deltaTime;
-		if (FireAllDelay [lvl] <= 0) {
+		if (FireStarDelay [lvl] <= 0) {
 			anillo.FireStar ();
-			FireStarDelay = ogFStar;
+			FireStarDelay[lvl] = ogFStar[lvl];
 		}
 	}
 
@@ -67,7 +73,7 @@ public class BossController : MonoBehaviour {
 		FireBarrageDelay [lvl] -= Time.deltaTime;
 		if (FireBarrageDelay [lvl] <= 0) {
 			anillo.FireBarrage ();
-			FireBarrageDelay = ogFBarrage;
+			FireBarrageDelay[lvl] = ogFBarrage[lvl];
 		}
 	}
 
@@ -75,7 +81,7 @@ public class BossController : MonoBehaviour {
 		FireSeekersDelay [lvl] -= Time.deltaTime;
 		if (FireSeekersDelay [lvl] <= 0) {
 			anillo.FireSeekers ();
-			FireBarrageDelay = ogFSeeker;
+			FireBarrageDelay[lvl] = ogFSeeker[lvl];
 		}
 	}
 }
