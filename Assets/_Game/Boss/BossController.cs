@@ -80,7 +80,7 @@ public class BossController : MonoBehaviour {
 	void FireSeekerCountDown(int lvl){
 		FireSeekersDelay [lvl] -= Time.deltaTime;
 		if (FireSeekersDelay [lvl] <= 0) {
-			anillo.FireSeekers ();
+			centro.FireSeekers ();
 			FireBarrageDelay[lvl] = ogFSeeker[lvl];
 		}
 	}

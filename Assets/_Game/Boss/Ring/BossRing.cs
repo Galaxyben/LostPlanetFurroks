@@ -94,10 +94,6 @@ public class BossRing : MonoBehaviour {
 		StartCoroutine ("fireBarrageCoroutine");
 	}
 
-	public void FireSeekers(){
-
-	}
-
 	IEnumerator fireStarCoroutine(int ite){
 		for (int i = 0; i < ite; i++) {
 			FireOne ('a', 3);

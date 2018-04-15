@@ -9,6 +9,7 @@ public class BossCenter : MonoBehaviour
 	public float FireRate;
 	public float updateDirTime;
 	public float Vel;
+	public float SeekerLaunchForce;
 	float ogUpdateDirTime;
 	Vector3 goingTo;
 	public Transform objective;
@@ -24,7 +25,8 @@ public class BossCenter : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (Input.GetKeyDown (KeyCode.E))
+			FireSeekers ();
 	}
 
 	public void Move(){
@@ -43,4 +45,11 @@ public class BossCenter : MonoBehaviour
 		goingTo = objective.transform.position;
 		Debug.Log ("updated goiung to");
 	}
+
+	public void FireSeekers(){
+		Transform go = Mangos.PoolManager.Spawn (seekerPrefab, transform.position, Quaternion.identity);
+		go.gameObject.GetComponent<SeekerController>().OnSpawn ();
+		go.gameObject.GetComponent<SeekerController> ().objective = objective;
+	}
+
 }

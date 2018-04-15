@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class SeekerController : MonoBehaviour {
 
 	public float seekerLifeDuration;
-	public GameObject objective;
+	public float Velocidad;
+	public AnimationCurve SeekerForce;
+	public AnimationCurve StartingForce;
+	float t = 0;
+	public Transform objective;
+
 	Rigidbody rigi;
 	// Use this for initialization
 	void Start () {
@@ -15,10 +21,12 @@ public class SeekerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		rigi.AddForce (objective.transform.position - transform.position, ForceMode.Force);
+		rigi.velocity = Vector3.up * StartingForce.Evaluate (t) * Time.deltaTime * Velocidad + (objective.position - transform.position) / (objective.position - transform.position).magnitude * SeekerForce.Evaluate (t) * Time.deltaTime * Velocidad;
+		transform.LookAt (transform.position + rigi.velocity.normalized);
+		t += Time.deltaTime / 3f;
 	}
 
-	void OnSpawn (){
+	public void OnSpawn (){
 		Invoke("SelfDespawn",seekerLifeDuration);
 	}
 
@@ -27,6 +35,8 @@ public class SeekerController : MonoBehaviour {
 	}
 
 	void SelfDespawn(){
-		Mangos.PoolManager.Despawn (gameObject);
+		Debug.Log ("Crash");
+		gameObject.SetActive (false);
+		//Mangos.PoolManager.Despawn (gameObject);
 	}
 }
