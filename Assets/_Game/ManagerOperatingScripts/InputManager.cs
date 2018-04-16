@@ -34,9 +34,15 @@ namespace Mangos {
 				if (Input.GetButtonDown ("Fire1")) {
 					StaticManager.playerShip.Shoot ();
 				}
-				if ((Input.GetKeyDown (KeyCode.JoystickButton3))||(Input.GetKeyDown(KeyCode.E))) {
+				if ((Input.GetKeyDown (KeyCode.JoystickButton3)) || (Input.GetKeyDown (KeyCode.E))) {
 					StaticManager.playerShip.gunType += 1;
 				}
+				///--------SECCION DE MOVIMIENTO DE CAMARA--------------------------------
+				float camMovement_H = Input.GetAxis ("camHorizontal");
+				//Debug.Log (camMovement_H);
+				float camMovement_V = Input.GetAxis ("camVertical");
+				//Debug.Log (camMovement_V);
+				StaticManager.playerShip.pointerMovement(camMovement_H, camMovement_V);
 				break;
 
 			case GameState.pause:
