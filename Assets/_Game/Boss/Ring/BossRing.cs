@@ -17,6 +17,9 @@ public class BossRing : MonoBehaviour {
 	Vector3 lookinAt;
 	Transform generalDirection;
 	public float Vel;
+	public float HP;
+	public float invulerableTime;
+	bool vulnerable = true;
 	// Use this for initialization
 	void Start () {
 		lookinAt = objective.position;
@@ -45,6 +48,9 @@ public class BossRing : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.UpArrow))
 			RotationSpeed += 1;
+
+		if (Input.GetKeyDown (KeyCode.D))
+			GetDamaged ();
 
 		angDragMag = ringRigi.angularVelocity.magnitude;
 		ringRigi.gameObject.transform.position = gameObject.transform.position;
@@ -110,5 +116,34 @@ public class BossRing : MonoBehaviour {
 			FireAll ();
 			yield return new WaitForSeconds(BarrageDelay);
 		}
+	}
+
+	void GetDamaged()
+	{
+		if (vulnerable) {
+			StartCoroutine ("damageStop");
+			HP -= 1.0f;
+		}
+	}
+
+	IEnumerator damageStop(){
+		vulnerable = false;
+		Vector3 temp = ringRigi.velocity; 
+		Vector3 temp2 = centerRigi.velocity;
+		ringRigi.velocity = Vector3.zero;
+		centerRigi.velocity = Vector3.zero;
+		ringRigi.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.white);
+		float startTime = Time.time;
+
+		while (Time.time < startTime +invulerableTime) 
+		{
+			ringRigi.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(startTime, startTime+invulerableTime, Time.time) ));
+			yield return null;
+		}
+
+		ringRigi.velocity = temp;
+		centerRigi.velocity = temp2;
+		ringRigi.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.black);
+		vulnerable = true;
 	}
 }
