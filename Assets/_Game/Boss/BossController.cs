@@ -62,7 +62,7 @@ public class BossController : MonoBehaviour {
 		}
 	}
 
-	void OnBulletHit(string _tag){
+	public void OnBulletHit(string _tag){
 
 	}
 
