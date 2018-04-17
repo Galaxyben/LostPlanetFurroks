@@ -128,10 +128,8 @@ public class BossRing : MonoBehaviour {
 
 	IEnumerator damageStop(){
 		vulnerable = false;
-		Vector3 temp = ringRigi.velocity; 
-		Vector3 temp2 = centerRigi.velocity;
-		ringRigi.velocity = Vector3.zero;
-		centerRigi.velocity = Vector3.zero;
+		Vector3 temp = ringRigi.angularVelocity; 
+		ringRigi.angularVelocity = Vector3.zero;
 		ringRigi.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.white);
 		float startTime = Time.time;
 
@@ -141,8 +139,7 @@ public class BossRing : MonoBehaviour {
 			yield return null;
 		}
 
-		ringRigi.velocity = temp;
-		centerRigi.velocity = temp2;
+		ringRigi.angularVelocity = temp;
 		ringRigi.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.black);
 		vulnerable = true;
 	}

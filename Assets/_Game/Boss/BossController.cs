@@ -15,6 +15,7 @@ public class BossController : MonoBehaviour {
 	public int level = 0;
 	BossCenter centro;
 	BossRing anillo;
+	public bool firingLasser;
 
 	// Use this for initialization
 	void Start () {
@@ -34,7 +35,7 @@ public class BossController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		centro.Move ();
+		centro.Move (firingLasser);
 		anillo.Rotate ();
 		FireAllCountDown (level);
 		FireStarCountDown (level);

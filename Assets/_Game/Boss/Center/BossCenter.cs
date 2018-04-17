@@ -13,6 +13,7 @@ public class BossCenter : MonoBehaviour
 	float ogUpdateDirTime;
 	Vector3 goingTo;
 	public Transform objective;
+	Rigidbody rigi;
 
 	void Start () {		
 		Mangos.PoolManager.PreSpawn (bulletPrefab, 500);
@@ -21,6 +22,7 @@ public class BossCenter : MonoBehaviour
 		Mangos.PoolManager.SetPoolLimit (seekerPrefab, 100);
 		goingTo = objective.transform.position;
 		ogUpdateDirTime = updateDirTime;
+		rigi = GetComponent<Rigidbody> ();
 	}
 	
 	// Update is called once per frame
@@ -29,11 +31,14 @@ public class BossCenter : MonoBehaviour
 			FireSeekers ();
 	}
 
-	public void Move(){
-		gameObject.transform.Translate (0f, (objective.transform.position.y-gameObject.transform.position.y)*0.7f*Time.deltaTime , 0f);
-		GetComponent<Rigidbody>().AddForce (((goingTo - gameObject.transform.position)/(goingTo - gameObject.transform.position).magnitude)*Time.deltaTime * Vel);
-		updateDirTime -= Time.deltaTime;
-
+	public void Move(bool _f){
+		if (_f) {
+			rigi.velocity -= rigi.velocity * Time.deltaTime/GetComponent<Claws>().StartupTime;
+		} else {
+			gameObject.transform.Translate (0f, (objective.transform.position.y - gameObject.transform.position.y) * 0.7f * Time.deltaTime, 0f);
+			rigi.AddForce (((goingTo - gameObject.transform.position) / (goingTo - gameObject.transform.position).magnitude) * Time.deltaTime * Vel);
+			updateDirTime -= Time.deltaTime;
+		}
 		if (updateDirTime <= 0) {
 			updateDirTime = ogUpdateDirTime;
 			UpdateGoingTo ();
