@@ -6,6 +6,8 @@ public class BossCenter : MonoBehaviour
 {
 	public GameObject bulletPrefab;
 	public GameObject seekerPrefab;
+	public Transform misilSpawn1;
+	public Transform misilSpawn2;
 	public float FireRate;
 	public float updateDirTime;
 	public float Vel;
@@ -14,6 +16,9 @@ public class BossCenter : MonoBehaviour
 	Vector3 goingTo;
 	public Transform objective;
 	Rigidbody rigi;
+	bool vulnerable;
+	public float invulnerableTime;
+	public float HP;
 
 	void Start () {		
 		Mangos.PoolManager.PreSpawn (bulletPrefab, 500);
@@ -52,9 +57,44 @@ public class BossCenter : MonoBehaviour
 	}
 
 	public void FireSeekers(){
-		Transform go = Mangos.PoolManager.Spawn (seekerPrefab, transform.position, Quaternion.identity);
-		go.gameObject.GetComponent<SeekerController>().OnSpawn ();
-		go.gameObject.GetComponent<SeekerController> ().objective = objective;
+		ActuallyFireSeekers ();
+		Invoke ("ActuallyFireSeekers", 0.2f);
+		Invoke ("ActuallyFireSeekers", 0.4f);
 	}
 
+	public void ActuallyFireSeekers()
+	{
+		//Left seeker
+		Transform go = Mangos.PoolManager.Spawn (seekerPrefab, misilSpawn1.position, Quaternion.identity);
+		go.gameObject.GetComponent<SeekerController>().OnSpawn ();
+		go.gameObject.GetComponent<SeekerController> ().objective = objective;
+		//Right Seeker
+		Transform go2 = Mangos.PoolManager.Spawn (seekerPrefab, misilSpawn2.position, Quaternion.identity);
+		go2.gameObject.GetComponent<SeekerController>().OnSpawn ();
+		go2.gameObject.GetComponent<SeekerController> ().objective = objective;
+	}
+
+	void GetDamaged(){
+		if (vulnerable) {
+			StartCoroutine ("DamageStop");
+		}
+	}
+
+	IEnumerator DamageStop(){
+		vulnerable = false;
+		Vector3 temp = rigi.velocity; 
+		rigi.velocity = Vector3.zero;
+		rigi.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.white);
+		float startTime = Time.time;
+
+		while (Time.time < startTime +invulnerableTime) 
+		{
+			rigi.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(startTime, startTime+invulnerableTime, Time.time) ));
+			yield return null;
+		}
+
+		rigi.velocity = temp;
+		rigi.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.black);
+		vulnerable = true;
+	}
 }

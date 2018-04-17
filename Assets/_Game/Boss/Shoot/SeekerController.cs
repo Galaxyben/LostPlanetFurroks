@@ -31,12 +31,22 @@ public class SeekerController : MonoBehaviour {
 	}
 
 	void OnDespawn(){
-		SelfDespawn ();
+		CancelInvoke ();
+		//Si tiene fisicas, aqui poner el RigidBody.velocity = Vector3.zero;
+		rigi.velocity = Vector3.zero;
+		t = 0;
 	}
 
 	void SelfDespawn(){
-		Debug.Log ("Crash");
-		gameObject.SetActive (false);
-		//Mangos.PoolManager.Despawn (gameObject);
+		Mangos.PoolManager.Despawn (gameObject);
+		OnDespawn();
+	}
+
+	void OnCollisionEnter(Collision _col)
+	{
+		if (!_col.gameObject.CompareTag (gameObject.tag)) {
+			SelfDespawn ();
+			OnDespawn ();
+		}
 	}
 }

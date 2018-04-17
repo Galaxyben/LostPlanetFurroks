@@ -8,13 +8,16 @@ public class BossController : MonoBehaviour {
 	public float[] FireStarDelay;
 	public float[] FireBarrageDelay;
 	public float[] FireSeekersDelay;
+	public float[] FireLaserDelay;
 	float[] ogFAll;
 	float[] ogFStar;
 	float[] ogFBarrage;
 	float[] ogFSeeker;
+	float[] ogFLaser;
 	public int level = 0;
 	BossCenter centro;
 	BossRing anillo;
+	Claws pinzas;
 	public bool firingLasser;
 
 	// Use this for initialization
@@ -25,11 +28,13 @@ public class BossController : MonoBehaviour {
 		ogFStar = new float[FireStarDelay.Length];
 		ogFBarrage = new float[FireBarrageDelay.Length];
 		ogFSeeker = new float[FireSeekersDelay.Length];
+		ogFLaser = new float[FireLaserDelay.Length];
 		for (int i = 0; i < FireAllDelay.Length; i++) {
 			ogFAll [i] = FireAllDelay [i];
 			ogFBarrage [i] = FireBarrageDelay [i];
 			ogFSeeker [i] = FireSeekersDelay [i];
 			ogFStar [i] = FireStarDelay [i];
+			ogFLaser [i] = FireLaserDelay [i];
 		}
 	}
 	
@@ -37,10 +42,13 @@ public class BossController : MonoBehaviour {
 	void Update () {
 		centro.Move (firingLasser);
 		anillo.Rotate ();
-		FireAllCountDown (level);
-		FireStarCountDown (level);
-		FireBarrageCountDown (level);
-		FireSeekerCountDown (level);
+		if (!firingLasser) {
+			FireAllCountDown (level);
+			FireStarCountDown (level);
+			FireBarrageCountDown (level);
+			FireSeekerCountDown (level);
+			FireLaserCountDown (level);
+		}
 
 		switch (level) {
 		case 0:
@@ -52,6 +60,10 @@ public class BossController : MonoBehaviour {
 		default:
 			break;
 		}
+	}
+
+	void OnBulletHit(string _tag){
+
 	}
 
 	void FireAllCountDown(int lvl){
@@ -82,7 +94,15 @@ public class BossController : MonoBehaviour {
 		FireSeekersDelay [lvl] -= Time.deltaTime;
 		if (FireSeekersDelay [lvl] <= 0) {
 			centro.FireSeekers ();
-			FireBarrageDelay[lvl] = ogFSeeker[lvl];
+			FireSeekersDelay[lvl] = ogFSeeker[lvl];
+		}
+	}
+
+	void FireLaserCountDown(int lvl){
+		FireLaserDelay [lvl] -= Time.deltaTime;
+		if (FireLaserDelay [lvl] <= 0) {
+			FireLaserDelay [lvl] = ogFLaser [lvl];
+			pinzas.startFireLasser ();
 		}
 	}
 }

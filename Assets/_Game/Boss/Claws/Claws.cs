@@ -15,6 +15,9 @@ public class Claws : MonoBehaviour {
 	bool isStartingLasser;
 	bool fireAhead;
 	public float t;
+	bool vulnerable;
+	public float invulnerableTime;
+	public float HP;
 	// Use this for initialization
 	void Start () {
 		claw.transform.LookAt (objective.position);
@@ -29,10 +32,10 @@ public class Claws : MonoBehaviour {
 		if (isStartingLasser) {
 			
 			if (fireAhead) {
-				lookingAt -= (lookingAt - (objective.position + objective.gameObject.GetComponent<Rigidbody> ().velocity)) * 0.7f * Time.deltaTime;
+				lookingAt -= (lookingAt - (objective.position + objective.gameObject.GetComponent<Rigidbody> ().velocity)) * 0.97f * Time.deltaTime;
 				claw.transform.LookAt (lookingAt);
 			} else {
-				lookingAt -= (lookingAt - objective.position) * 0.7f * Time.deltaTime;
+				lookingAt -= (lookingAt - objective.position) * 0.8f * Time.deltaTime;
 				claw.transform.LookAt (lookingAt);
 			}
 		}
@@ -65,6 +68,27 @@ public class Claws : MonoBehaviour {
 		yield return new WaitForSeconds(FiringTime);
 		GetComponentInParent<BossController> ().firingLasser = false;
 		lookingAt = -transform.position + lookingAt;
+	}
+
+	public void GetDamaged(){
+		if (vulnerable) {
+			StartCoroutine ("DamageStop");
+		}
+	}
+
+	IEnumerator DamageStop(){
+		vulnerable = false;
+		claw.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.white);
+		float startTime = Time.time;
+
+		while (Time.time < startTime +invulnerableTime) 
+		{
+			claw.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(startTime, startTime+invulnerableTime, Time.time) ));
+			yield return null;
+		}
+			
+		claw.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.black);
+		vulnerable = true;
 	}
 
 }
