@@ -18,6 +18,7 @@ public class PoolManager : MonoBehaviour
 	//limites de cada pool
 	static Dictionary<int,int> poolLimit = new Dictionary<int, int>();
 
+<<<<<<< HEAD
     //Clear Pools
     public static void ClearPools()
     {
@@ -31,7 +32,6 @@ public class PoolManager : MonoBehaviour
 	{
 		//Crear la cola de objetos o el pool
 		MakePool(prefab);
-		
 		//For 0 a tantos y creamos objetos
 		//Agregar a la cola la cantidad de elementos iniciales del tipo prefab
 		//Se crean N instancias iniciales
@@ -41,7 +41,6 @@ public class PoolManager : MonoBehaviour
 			AddNewItemToQueue(prefab, i);	
 		}
 	}
-	
 	//AgregarItems
 	private static void AddNewItemToQueue(GameObject prefab, int i)
 	{
@@ -93,7 +92,6 @@ public class PoolManager : MonoBehaviour
 				if(pool[prefab.GetInstanceID()].Count < poolLimit[prefab.GetInstanceID()])
 				{
 					//Esta lleno pero aun hay espacio en el limite
-					
 					//Todos los objetos estan en uso, hay que crear uno nuevo 
 					//crear un objeto de ese tipo y meterlo al pool
 					//Crear una copia temporal de los objetos en un array
@@ -118,7 +116,7 @@ public class PoolManager : MonoBehaviour
 			//Simular un Instantiate
 			//Regresar al siguiente disponible
 			GameObject go = pool[prefab.GetInstanceID()].Dequeue();
-			
+
 			//Asignarle los valores que pide el usuario a posicion y rotacion
 			go.transform.position = position;
 			go.transform.rotation = rotation;
@@ -131,7 +129,6 @@ public class PoolManager : MonoBehaviour
 			//Opcional
 			//Podria sacarlo del objeto del queue, del contenedor
 			//go.transform.parent = null;
-			
 			//regreso la referencia al objeto instanciado
 			return go.transform;
 		}
@@ -142,7 +139,6 @@ public class PoolManager : MonoBehaviour
 			return Spawn(prefab, position, rotation);
 		}
 	}
-	
 	//Esto va a ser similar a un Destroy
 	public static void Despawn(GameObject prefab)
 	{
@@ -178,6 +174,4 @@ public class PoolManager : MonoBehaviour
 			poolLimit.Add(prefab.GetInstanceID(), newLimit);
 		}
 	}
-	
-}
 }

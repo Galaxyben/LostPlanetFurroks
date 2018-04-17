@@ -20,5 +20,7 @@ namespace Mangos {
 		public static GameManager gameManager;
 		public static AudioManager audioManager;
 		public static PoolManager poolManager;
+		public static NaveScript playerShip;
+
 	}
 }
