@@ -9,6 +9,8 @@ namespace Mangos {
 		public float volumeMusic = 1;
 		public float MasterVolume = 1;
 
+		
+
 		void Awake(){
 			StaticManager.audioManager = this;
 		}

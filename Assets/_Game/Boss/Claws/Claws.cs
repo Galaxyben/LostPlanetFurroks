@@ -18,10 +18,11 @@ public class Claws : MonoBehaviour {
 	bool vulnerable;
 	public float invulnerableTime;
 	public float HP;
+	public bool isAlive = true;
 	// Use this for initialization
 	void Start () {
-		claw.transform.LookAt (objective.position);
-		lookingAt = objective.position;
+		claw.transform.LookAt (transform.position + Vector3.forward);
+		lookingAt = Vector3.forward;
 	}
 	
 	// Update is called once per frame
@@ -35,7 +36,7 @@ public class Claws : MonoBehaviour {
 				lookingAt -= (lookingAt - (objective.position + objective.gameObject.GetComponent<Rigidbody> ().velocity)) * 0.97f * Time.deltaTime;
 				claw.transform.LookAt (lookingAt);
 			} else {
-				lookingAt -= (lookingAt - objective.position) * 0.8f * Time.deltaTime;
+				lookingAt -= (lookingAt - objective.position) * 0.6f * Time.deltaTime;
 				claw.transform.LookAt (lookingAt);
 			}
 		}
@@ -71,7 +72,7 @@ public class Claws : MonoBehaviour {
 	}
 
 	public void GetDamaged(){
-		if (vulnerable) {
+		if (vulnerable && isAlive) {
 			StartCoroutine ("DamageStop");
 		}
 	}

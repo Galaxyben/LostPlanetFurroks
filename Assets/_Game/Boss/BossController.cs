@@ -24,6 +24,7 @@ public class BossController : MonoBehaviour {
 	void Start () {
 		centro = GetComponent<BossCenter> ();
 		anillo = GetComponent<BossRing> ();
+		pinzas = GetComponent<Claws> ();
 		ogFAll = new float[FireAllDelay.Length];
 		ogFStar = new float[FireStarDelay.Length];
 		ogFBarrage = new float[FireBarrageDelay.Length];
@@ -49,6 +50,15 @@ public class BossController : MonoBehaviour {
 			FireSeekerCountDown (level);
 			FireLaserCountDown (level);
 		}
+		
+		if(pinzas.HP <= 0 && pinzas.isAlive)
+			ClawDies();
+		if(anillo.HP <= 0 && anillo.isAlive)
+			RingDies();
+		if(centro.HP <= 0 && centro.isAlive)
+			CenterDies();
+
+		print(anillo.HP);
 
 		switch (level) {
 		case 0:
@@ -63,7 +73,20 @@ public class BossController : MonoBehaviour {
 	}
 
 	public void OnBulletHit(string _tag){
-
+		switch(_tag){
+		case "Claw":
+			pinzas.GetDamaged();
+			break;
+		case "Ring":
+			anillo.GetDamaged();
+			break;
+		case "Center":
+			if(!anillo.isAlive)
+				centro.GetDamaged();
+			break;
+		default:
+			break;
+		}
 	}
 
 	void FireAllCountDown(int lvl){
@@ -104,5 +127,35 @@ public class BossController : MonoBehaviour {
 			FireLaserDelay [lvl] = ogFLaser [lvl];
 			pinzas.startFireLasser ();
 		}
+	}
+	
+	void RingDies(){
+		Invoke("KillRing", 2f);
+		anillo.Die ();
+		anillo.isAlive = false;
+	}
+
+	void KillRing(){
+		anillo.ringRigi.gameObject.SetActive(false);
+	}
+	
+	void ClawDies(){
+		Invoke("KillClaw", 2f);
+		pinzas.isAlive = false;
+	}
+	
+	void KillClaw(){
+		pinzas.claw.SetActive(false);
+	}
+	
+	void CenterDies(){
+		Invoke("KillCenter", 2f);
+		centro.isAlive = false;
+		Invoke("KillClaw", 2f);
+		pinzas.isAlive = false;
+	}
+	
+	void KillCenter(){
+		centro.gameObject.SetActive(false);
 	}
 }

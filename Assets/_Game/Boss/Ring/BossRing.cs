@@ -18,6 +18,7 @@ public class BossRing : MonoBehaviour {
 	Transform generalDirection;
 	public float Vel;
 	public float HP;
+	public bool isAlive = true;
 	public float invulerableTime;
 	bool vulnerable = true;
 	// Use this for initialization
@@ -53,7 +54,10 @@ public class BossRing : MonoBehaviour {
 			GetDamaged ();
 
 		angDragMag = ringRigi.angularVelocity.magnitude;
+
 		ringRigi.gameObject.transform.position = gameObject.transform.position;
+		
+		
 	}
 		
 	
@@ -118,9 +122,9 @@ public class BossRing : MonoBehaviour {
 		}
 	}
 
-	void GetDamaged()
+	public void GetDamaged()
 	{
-		if (vulnerable) {
+		if (vulnerable && isAlive) {
 			StartCoroutine ("damageStop");
 			HP -= 1.0f;
 		}
@@ -142,5 +146,9 @@ public class BossRing : MonoBehaviour {
 		ringRigi.angularVelocity = temp;
 		ringRigi.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.black);
 		vulnerable = true;
+	}
+
+	public void Die(){
+		RotationSpeed = 1;
 	}
 }
