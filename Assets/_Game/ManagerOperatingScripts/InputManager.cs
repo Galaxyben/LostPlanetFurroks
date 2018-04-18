@@ -14,12 +14,10 @@ namespace Mangos {
 
 		void Awake(){
 			StaticManager.inputManager = this;
-			Debug.Log ("Awake");
 		}
 
 		void Start(){
 			obj = GameObject.Find ("BossCenter");
-			Debug.Log ("Start");
 		}
 			
 		void Update(){
