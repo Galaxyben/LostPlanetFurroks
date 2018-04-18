@@ -63,7 +63,10 @@ public class BossController : MonoBehaviour {
 	}
 
 	public void OnBulletHit(string _tag){
-
+		switch(_tag){
+		default:
+			break;
+		}
 	}
 
 	void FireAllCountDown(int lvl){
@@ -104,5 +107,29 @@ public class BossController : MonoBehaviour {
 			FireLaserDelay [lvl] = ogFLaser [lvl];
 			pinzas.startFireLasser ();
 		}
+	}
+	
+	void RingDies(){
+		Invoke("KillRing", 2f);
+	}
+	
+	void KillRing(){
+		anillo.gameObject.SetActive(false);
+	}
+	
+	void ClawDies(){
+		Invoke("KillClaw", 2f);
+	}
+	
+	void KillClaw(){
+		pinzas.gameObject.SetActive(false);
+	}
+	
+	void CenterDies(){
+		Invoke("KillCenter", 2f);
+	}
+	
+	void KillCenter(){
+		centro.gameObject.SetActive(false);
 	}
 }
