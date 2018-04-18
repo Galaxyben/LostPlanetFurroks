@@ -18,7 +18,6 @@ namespace Mangos{
 		//limites de cada pool
 		static Dictionary<int,int> poolLimit = new Dictionary<int, int>();
 
-<<<<<<< HEAD
 	    //Clear Pools
 	    public static void ClearPools()
 	    {
@@ -26,15 +25,6 @@ namespace Mangos{
 	        poolHolder.Clear();
 	        poolLimit.Clear();
 	    }
-=======
-    //Clear Pools
-    public static void ClearPools()
-    {
-        pool.Clear();
-        poolHolder.Clear();
-        poolLimit.Clear();
-    }
->>>>>>> 4aaa1f23ae4ae52c4e56df7c56dd3331cc3871dd
 
 	    //Pre Spawn 
 	    public static void PreSpawn(GameObject prefab, int amount)//Cuantos

@@ -8,7 +8,7 @@ public class cameraScript : MonoBehaviour {
 		public Transform target;
 		public float smoothSpeed = 0.125f;
 		public Vector3 offset;
-		public RectTransform pntrPos;
+		//public RectTransform pntrPos;
 		public Camera cam;
 		private float camTurnSpeed = 10.0f;
 
