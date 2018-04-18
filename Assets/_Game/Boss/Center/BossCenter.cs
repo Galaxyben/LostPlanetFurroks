@@ -19,6 +19,7 @@ public class BossCenter : MonoBehaviour
 	bool vulnerable;
 	public float invulnerableTime;
 	public float HP;
+	public bool isAlive = true;
 
 	void Start () {		
 		Mangos.PoolManager.PreSpawn (bulletPrefab, 500);
@@ -74,8 +75,8 @@ public class BossCenter : MonoBehaviour
 		go2.gameObject.GetComponent<SeekerController> ().objective = objective;
 	}
 
-	void GetDamaged(){
-		if (vulnerable) {
+	public void GetDamaged(){
+		if (vulnerable && isAlive) {
 			StartCoroutine ("DamageStop");
 		}
 	}

@@ -15,6 +15,7 @@ public class MisilScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		OnSpawn();
 		rocketTurnSpeed = 50.0f;
 		rocketSpeed = 45f;
 		randomOffset = 0.0f;
@@ -47,9 +48,27 @@ public class MisilScript : MonoBehaviour {
 			transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (direction), rocketTurnSpeed * Time.deltaTime);
 			transform.Translate (Vector3.forward * rocketSpeed * Time.deltaTime);
 		}
-
-		if (timerSinceLaunch_Contor > objectLifeTimerValue) {
-			Destroy (transform.gameObject, 1);
+	}
+	
+	void OnCollisionEnter(Collision _col){
+		if(_col.gameObject.CompareTag("Claw") || _col.gameObject.CompareTag("Ring") || _col.gameObject.CompareTag("Center")){
+			_col.gameObject.GetComponent<BossController>().OnBulletHit(_col.gameObject.tag);
 		}
+		OnDespawn();
+		Mangos.PoolManager.Despawn (gameObject);
+	}
+	
+	void OnSpawn(){
+		Invoke("SelfDespawn",objectLifeTimerValue);
+	}
+	
+	void SelfDespawn(){
+		Mangos.PoolManager.Despawn (gameObject);
+		OnDespawn();
+	}
+	
+	void OnDespawn(){
+		CancelInvoke ();
+		GetComponent<Rigidbody>().velocity = Vector3.zero;
 	}
 }

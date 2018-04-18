@@ -32,7 +32,10 @@ public class TypicMisilScript : MonoBehaviour {
 
 	void OnCollisionEnter (Collision _col)
 	{
-		SelfDespawn ();
+		if(_col.gameObject.CompareTag("Claw") || _col.gameObject.CompareTag("Ring") || _col.gameObject.CompareTag("Center")){
+			_col.gameObject.GetComponent<BossController>().OnBulletHit(_col.gameObject.tag);
+		}
+		Mangos.PoolManager.Despawn (gameObject);
 		OnDespawn ();
 	}
 }
