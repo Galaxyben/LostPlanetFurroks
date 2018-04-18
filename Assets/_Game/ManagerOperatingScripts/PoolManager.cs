@@ -18,7 +18,6 @@ public class PoolManager : MonoBehaviour
 	//limites de cada pool
 	static Dictionary<int,int> poolLimit = new Dictionary<int, int>();
 
-<<<<<<< HEAD
     //Clear Pools
     public static void ClearPools()
     {
@@ -174,4 +173,5 @@ public class PoolManager : MonoBehaviour
 			poolLimit.Add(prefab.GetInstanceID(), newLimit);
 		}
 	}
+}
 }
