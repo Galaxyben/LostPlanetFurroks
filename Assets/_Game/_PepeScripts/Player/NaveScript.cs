@@ -34,9 +34,9 @@ namespace Mangos {
 		private GameObject PointerPrefab;
 
 		void Start () {
-			PointerPrefab = GameObject.Find ("Pointer");
+			//PointerPrefab = GameObject.Find ("Pointer");
 			mainCamera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
-			pointer = GameObject.Find ("Pointer").GetComponent<RectTransform> ();
+			//pointer = GameObject.Find ("Pointer").GetComponent<RectTransform> ();
 			Mangos.PoolManager.PreSpawn (Bullet.gameObject, 10);
 			Mangos.PoolManager.SetPoolLimit (Bullet.gameObject, 100);
 			Mangos.PoolManager.PreSpawn (HMBullet.gameObject, 10);
@@ -55,10 +55,10 @@ namespace Mangos {
 
 		void Update () {
 			mousePos = Input.mousePosition;
-			pntrPos = Camera.main.WorldToScreenPoint (PointerPrefab.transform.position);
+			//pntrPos = Camera.main.WorldToScreenPoint (PointerPrefab.transform.position);
 			//pntrPos += Camera.main.transform.forward * 
 			mousePos += Camera.main.transform.forward * distance;
-			aim = Camera.main.ScreenToWorldPoint (pntrPos);
+			aim = Camera.main.ScreenToWorldPoint (mousePos);
 
 			if (gunType == 5){
 				gunType = 1;
@@ -85,7 +85,7 @@ namespace Mangos {
 		}
 
 		public void Movement(float xAxis, float yAxis){
-			Vector3 direction = new Vector3 (xAxis, yAxis, 0.0f);
+			Vector3 direction = new Vector3 (xAxis, yAxis, 1.0f);
 			Vector3 FDir = new Vector3 (xAxis, yAxis, 1.0f);
 			transform.position += direction * movementSpeed * Time.deltaTime;
 			//transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (FDir), Mathf.Deg2Rad * 70.0f);

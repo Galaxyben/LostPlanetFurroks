@@ -13,7 +13,7 @@ public class cameraScript : MonoBehaviour {
 		private float camTurnSpeed = 10.0f;
 
 		void Start(){
-			pntrPos = GameObject.Find ("Pointer").GetComponent<RectTransform> ();
+			//pntrPos = GameObject.Find ("Pointer").GetComponent<RectTransform> ();
 		}
 
 		void FixedUpdate() {
@@ -24,7 +24,7 @@ public class cameraScript : MonoBehaviour {
 
 		public void camRotation(){
 
-			if (pntrPos.position.x <= -920.0f) {
+			/*if (pntrPos.position.x <= -920.0f) {
 				
 			} else if (pntrPos.position.x >= 920.0f) {
 				
@@ -34,7 +34,7 @@ public class cameraScript : MonoBehaviour {
 				
 			} else if (pntrPos.position.y >= 440.0f) {
 				
-			}
+			}*/
 		}
 	}
 }
