@@ -10,7 +10,9 @@ public class cameraScript : MonoBehaviour {
 		public Vector3 offset;
 		public RectTransform pntrPos;
 		public Camera cam;
-		private float camTurnSpeed = 10.0f;
+	private float camTurnSpeed = 10.0f;
+	Vector3 desiredPosition;
+	Vector3 smoothedPosition;
 
 		void Start(){
 			cam = GameObject.Find ("Main Camera").GetComponent<Camera> ();
@@ -18,11 +20,14 @@ public class cameraScript : MonoBehaviour {
 		}
 
 		void Update() {
-			Vector3 desiredPosition = target.position + offset;
-			Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-			transform.position = smoothedPosition;
+			desiredPosition = target.position + offset;
+			//smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+			smoothedPosition = (desiredPosition - transform.position) * 0.9f * Time.deltaTime;
+			transform.Translate(smoothedPosition * 1);
+			transform.LookAt (transform.position + smoothedPosition);
+			print(smoothedPosition);
 
-			if (pntrPos.position.x <= -920.0f) {
+			/*if (pntrPos.position.x <= -920.0f) {
 				Quaternion camRotation = cam.transform.rotation;
 				camRotation.y -= camTurnSpeed;
 			} else if (pntrPos.position.x >= 920.0f) {
@@ -36,7 +41,7 @@ public class cameraScript : MonoBehaviour {
 			} else if (pntrPos.position.y >= 440.0f) {
 				Quaternion camRotation = cam.transform.rotation;
 				camRotation.x -= camTurnSpeed;
-			}
+			}*/
 		}
 
 		public void camRotation(){

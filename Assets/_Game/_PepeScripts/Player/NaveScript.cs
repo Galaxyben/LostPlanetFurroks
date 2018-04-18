@@ -24,7 +24,6 @@ namespace Mangos {
 		private Vector3 aim;
 		private Vector3 pntrPos;
 		private Vector3 mousePos;
-		private float pointerVel = 300.0f;
 		private GameObject PointerPrefab;
 
 		void Start () {
@@ -87,7 +86,8 @@ namespace Mangos {
 		public void Movement(float xAxis, float yAxis){
 			Vector3 direction = new Vector3 (xAxis, yAxis, 1.0f);
 			Vector3 FDir = new Vector3 (xAxis, yAxis, 1.0f);
-			transform.position += direction * movementSpeed * Time.deltaTime;
+			//transform.position += direction * movementSpeed * Time.deltaTime;
+			transform.Translate (direction * movementSpeed * Time.deltaTime, Space.Self);
 			//transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (FDir), Mathf.Deg2Rad * 70.0f);
 			//transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (aim), Mathf.Deg2Rad * 100.0f);
 			//transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (pntrPos), Mathf.Deg2Rad * 100.0f);

@@ -54,7 +54,7 @@ public class BossCenter : MonoBehaviour
 
 	public void UpdateGoingTo(){
 		goingTo = objective.transform.position;
-		Debug.Log ("updated goiung to");
+		//Debug.Log ("updated goiung to");
 	}
 
 	public void FireSeekers(){

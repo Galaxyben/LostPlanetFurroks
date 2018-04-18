@@ -174,8 +174,4 @@ namespace Mangos{
 			}
 		}
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> c4d6b92f784bfdf9d1755a0a1f4e9c3e1a66ea41
