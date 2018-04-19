@@ -172,6 +172,7 @@ public class BossRing : MonoBehaviour {
 		for(int i = 0; i < explosionParent.GetComponentsInChildren<ParticleSystem>().Length; i++)
 		{
 			explosionParent.GetComponentsInChildren<ParticleSystem>()[i].Play();
+			Mangos.StaticManager.soundManager.ESounds (4);
 			yield return new WaitForSeconds(0.5f);
 		}
 		yield return new WaitForSeconds (0.2f);
@@ -179,5 +180,6 @@ public class BossRing : MonoBehaviour {
 		{
 			explosionParent.GetComponentsInChildren<ParticleSystem>()[i].Stop();
 		}
+		mat.SetFloat("_Mode", 0); 
 	}
 }

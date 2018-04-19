@@ -18,6 +18,7 @@ namespace Mangos {
 		public AudioClip hit1;
 		public AudioClip playerAlert;
 		public AudioClip musica;
+		public AudioClip Explosion;
 
 		void Start () {
 			AS = GetComponent<AudioSource> ();
@@ -59,6 +60,9 @@ namespace Mangos {
 				break;
 			case 3:
 				AS.PlayOneShot (ELaser3);
+				break;
+			case 4:
+				AS.PlayOneShot (Explosion);
 				break;
 			default:
 				AS.PlayOneShot (ELaser1);

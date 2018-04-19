@@ -20,6 +20,10 @@ public class BossCenter : MonoBehaviour
 	public float invulnerableTime;
 	public float HP;
 	public bool isAlive = true;
+	bool fadeAway;
+	 Material mat;
+	public GameObject explosionParent, matParent;
+	float t;
 
 	void Start () {		
 		Mangos.PoolManager.PreSpawn (bulletPrefab, 500);
@@ -29,12 +33,20 @@ public class BossCenter : MonoBehaviour
 		goingTo = objective.transform.position;
 		ogUpdateDirTime = updateDirTime;
 		rigi = GetComponent<Rigidbody> ();
+		mat = matParent.GetComponent<MeshRenderer>().material;
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.E))
 			GetDamaged ();
+			
+		if (fadeAway)
+		{
+			t += Time.deltaTime/2f;
+			mat.color = Color.Lerp(Color.white, new Color (1, 1, 1, 0), t);
+		}
 	}
 
 	public void Move(bool _f){
@@ -98,5 +110,27 @@ public class BossCenter : MonoBehaviour
 		rigi.velocity = temp;
 		rigi.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.black);
 		vulnerable = true;
+	}
+	
+	public void Die(){
+		StartCoroutine("Explode");
+		mat.SetFloat("_Mode", 2); 
+		fadeAway = true;
+	}
+
+
+	IEnumerator Explode(){
+		for(int i = 0; i < explosionParent.GetComponentsInChildren<ParticleSystem>().Length; i++)
+		{
+			explosionParent.GetComponentsInChildren<ParticleSystem>()[i].Play();
+			Mangos.StaticManager.soundManager.ESounds (4);
+			yield return new WaitForSeconds(0.5f);
+		}
+		yield return new WaitForSeconds (0.2f);
+		for(int i = 0; i < explosionParent.GetComponentsInChildren<ParticleSystem>().Length; i++)
+		{
+			explosionParent.GetComponentsInChildren<ParticleSystem>()[i].Stop();
+		}
+		mat.SetFloat("_Mode", 0); 
 	}
 }

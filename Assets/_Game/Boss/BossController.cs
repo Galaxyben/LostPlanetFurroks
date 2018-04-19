@@ -140,6 +140,7 @@ public class BossController : MonoBehaviour {
 	void ClawDies(){
 		Invoke("KillClaw", 2f);
 		pinzas.isAlive = false;
+		pinzas.Die();
 	}
 	
 	void KillClaw(){
@@ -147,10 +148,11 @@ public class BossController : MonoBehaviour {
 	}
 	
 	void CenterDies(){
-		Invoke("KillCenter", 2f);
+		Invoke("KillCenter", 6f);
 		centro.isAlive = false;
 		Invoke("KillClaw", 2f);
 		pinzas.isAlive = false;
+		centro.Die();
 	}
 	
 	void KillCenter(){

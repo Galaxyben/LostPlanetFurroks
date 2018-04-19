@@ -19,10 +19,15 @@ public class Claws : MonoBehaviour {
 	public float invulnerableTime;
 	public float HP;
 	public bool isAlive = true;
+	float t2;
+	bool fadeAway;
+	Material mat;
+	public GameObject explosionParent;
 	// Use this for initialization
 	void Start () {
 		claw.transform.LookAt (transform.position + Vector3.forward);
 		lookingAt = Vector3.forward;
+		mat = claw.GetComponentInChildren<MeshRenderer>().material;
 	}
 	
 	// Update is called once per frame
@@ -40,7 +45,12 @@ public class Claws : MonoBehaviour {
 				claw.transform.LookAt (lookingAt);
 			}
 		}
-
+		
+		if (fadeAway)
+		{
+			t2 += Time.deltaTime/2f;
+			mat.color = Color.Lerp(Color.white, new Color (1, 1, 1, 0), t2);
+		}
 
 	}
 
@@ -87,11 +97,33 @@ public class Claws : MonoBehaviour {
 		while (Time.time < startTime +invulnerableTime) 
 		{
 			claw.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.Lerp(Color.white, Color.black, Mathf.InverseLerp(startTime, startTime+invulnerableTime, Time.time) ));
+			Mangos.StaticManager.soundManager.ESounds (4);
 			yield return null;
 		}
 			
 		claw.gameObject.GetComponentInChildren<MeshRenderer> ().material.SetColor("_EmissionColor", Color.black);
 		vulnerable = true;
+	}
+
+	public void Die(){
+		StartCoroutine("Explode");
+		mat.SetFloat("_Mode", 2); 
+		fadeAway = true;
+	}
+
+
+	IEnumerator Explode(){
+		for(int i = 0; i < explosionParent.GetComponentsInChildren<ParticleSystem>().Length; i++)
+		{
+			explosionParent.GetComponentsInChildren<ParticleSystem>()[i].Play();
+			yield return new WaitForSeconds(0.5f);
+		}
+		yield return new WaitForSeconds (0.2f);
+		for(int i = 0; i < explosionParent.GetComponentsInChildren<ParticleSystem>().Length; i++)
+		{
+			explosionParent.GetComponentsInChildren<ParticleSystem>()[i].Stop();
+		}
+		mat.SetFloat("_Mode", 0); 
 	}
 
 }
