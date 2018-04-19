@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace Mangos {
 	public class NaveScript : MonoBehaviour {
@@ -142,9 +143,9 @@ namespace Mangos {
 
 		void OnCollisionEnter (Collision _col)
 		{
-			if(_col.gameObject.CompareTag("EBullet1"))
+			if(_col.gameObject.CompareTag("EBullet"))
 			{
-				getDamage(5);
+				getDamage(10);
 			}
 			if(_col.gameObject.CompareTag("BossRay"))
 			{
@@ -154,15 +155,23 @@ namespace Mangos {
 			{
 				getDamage(15);
 			}
-			if(_col.gameObject.CompareTag("EBullet1"))
+			/*if(_col.gameObject.CompareTag("EBullet"))
 			{
 				getDamage(10);
-			}
+			}*/
 		}
 
 		public void getDamage(int DamageDealt) {
 			life -= DamageDealt;
 			StaticManager.soundManager.generalSounds (1);
+		}
+
+		public void deadFunction()
+		{
+			if(life == 0)
+			{
+				SceneManager.LoadScene ("GameOver");
+			}
 		}
 	}
 }

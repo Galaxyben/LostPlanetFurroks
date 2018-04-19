@@ -12,6 +12,10 @@ namespace Mangos {
 		public GameObject[] selectorArr;
 		public GameObject selector;
 
+		private float spawnTimer = 7f;
+		float timer = 0f;
+		int waveNumber = 0;
+
 		void Start () {
 
 			//selectorArr = new GameObject[spawnerNumber];
@@ -31,7 +35,37 @@ namespace Mangos {
 		
 
 		void Update () {
-			
+			timer += Time.deltaTime;
+			if(timer >= spawnTimer)
+			{
+				DoSpawn ();
+			}
+		}
+
+		public void DoSpawn()
+		{
+			switch(waveNumber)
+			{
+			case 0:
+				for(int i = 0; i <= 12; i++)
+				{
+					Instantiate (Minion1.gameObject, selectorArr[i].gameObject.transform.position, Quaternion.identity);
+				}
+				break;
+			case 1:
+				for(int i = 0; i <= 12; i++)
+				{
+					Instantiate (Minion2.gameObject, selectorArr[i].gameObject.transform.position, Quaternion.identity);
+				}
+				break;
+			default:
+				waveNumber = 0;
+				break;
+			}
+			++waveNumber;
+			timer = 0f;
+
+			spawnTimer = Random.Range(7f, 10f);
 		}
 	}
 }
