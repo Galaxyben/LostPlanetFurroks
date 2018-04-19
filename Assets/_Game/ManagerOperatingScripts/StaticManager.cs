@@ -6,6 +6,7 @@ namespace Mangos {
 	public enum GameState {
 		mainMenu,
 		mainGame,
+		GameOver,
 		pause,
 	}
 
