@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Mangos {
 public class BulletController : MonoBehaviour {
 
 	public float bulletLifeDuration = 5.0f;
@@ -38,8 +39,13 @@ public class BulletController : MonoBehaviour {
 
 	void OnCollisionEnter(Collision _col)
 	{
+		if(_col.gameObject.CompareTag("Player"))
+		{
+			_col.gameObject.GetComponent<NaveScript> ().getDamage (2);
+		}
 		SelfDespawn ();
 		OnDespawn ();
 	}
 
+}
 }

@@ -32,7 +32,7 @@ public class BossRing : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown (KeyCode.A))
+		/*if (Input.GetKeyDown (KeyCode.A))
 			FireAll ();
 
 		if (Input.GetKeyDown (KeyCode.S))
@@ -52,7 +52,7 @@ public class BossRing : MonoBehaviour {
 
 		if (Input.GetKeyDown (KeyCode.D))
 			GetDamaged ();
-
+		*/
 		angDragMag = ringRigi.angularVelocity.magnitude;
 
 		ringRigi.gameObject.transform.position = gameObject.transform.position;

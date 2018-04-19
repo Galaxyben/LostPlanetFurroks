@@ -13,7 +13,7 @@ namespace Mangos {
 		public GameObject DGun2;
 		public Rigidbody Bullet;
 		public Rigidbody HMBullet;
-		private int life;
+		public int life;
 		private float bulletvel;
 		public float movementSpeed;
 		private float impulse = 15.0f;
@@ -27,6 +27,7 @@ namespace Mangos {
 		private Vector3 mousePos;
 		private GameObject PointerPrefab;
 		public Vector3 offset;
+		public float MisilScriptMultiplier;
 		float xRotate, yRotate;
 		float ogSpeed;
 		Vector3 temp1, temp2;
@@ -90,7 +91,7 @@ namespace Mangos {
 
 		public void Movement(float xAxis, float yAxis){
 			//Vector3 direction = (new Vector3 (xAxis, yAxis, 0f)/50f) + transform.forward;
-			Vector3 direction = transform.forward + Vector3.Cross(transform.forward, Vector3.down) * xAxis/40 + Vector3.up * yAxis/40;
+			Vector3 direction = transform.forward + Vector3.Cross(transform.forward, Vector3.down) * xAxis/20 + Vector3.up * yAxis/40;
 			rigi.velocity = direction.normalized * movementSpeed * Time.deltaTime;
 			transform.LookAt(transform.position + rigi.velocity);
 
@@ -113,28 +114,28 @@ namespace Mangos {
 			//print(transform.forward);
 			switch (gunType) {
 				case 1: //First Typical Gun
-					bulletvel = 100.0f;
-					Transform TypicBullet = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, transform.rotation);
+				bulletvel = 100.0f * MisilScriptMultiplier;
+					Transform TypicBullet = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
 					TypicBullet.gameObject.GetComponent<Rigidbody> ().AddForce (transform.forward * bulletvel, ForceMode.Impulse);
 					StaticManager.soundManager.playerSounds (1);
 					break;
 				case 2://Dual Gun Shot
-					bulletvel = 130.0f;
-					Transform DBullet1 = Mangos.PoolManager.Spawn (Bullet.gameObject, DGun1.transform.position, transform.rotation);
+				bulletvel = 130.0f* MisilScriptMultiplier;
+				Transform DBullet1 = Mangos.PoolManager.Spawn (Bullet.gameObject, DGun1.transform.position, ShootingPlace.transform.rotation);
 					DBullet1.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
-					Transform DBullet2 = Mangos.PoolManager.Spawn (Bullet.gameObject, DGun2.transform.position, transform.rotation);
+				Transform DBullet2 = Mangos.PoolManager.Spawn (Bullet.gameObject, DGun2.transform.position, ShootingPlace.transform.rotation);
 					DBullet2.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 				StaticManager.soundManager.playerSounds (3);
 					break;
 				case 3://Cannon Shot
-					bulletvel = 80.0f;
-					Transform newBulletCS = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, transform.rotation);
+				bulletvel = 80.0f* MisilScriptMultiplier;
+				Transform newBulletCS = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
 					newBulletCS.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 				StaticManager.soundManager.playerSounds (2);
 					break;
 				case 4://Homming Shot
-					bulletvel = 115.0f;
-					Transform HommingBullet = Mangos.PoolManager.Spawn (HMBullet.gameObject, ShootingPlace.transform.position, transform.rotation);
+				bulletvel = 115.0f* MisilScriptMultiplier;
+				Transform HommingBullet = Mangos.PoolManager.Spawn (HMBullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
 					HommingBullet.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 				StaticManager.soundManager.playerSounds (1);
 					break;
@@ -150,10 +151,10 @@ namespace Mangos {
 			{
 				getDamage(10);
 			}
-			if(_col.gameObject.CompareTag("BossRay"))
+			/*if(_col.gameObject.CompareTag("BossRay"))
 			{
 				getDamage(50);
-			}
+			}*/
 			if(_col.gameObject.CompareTag("BBullet"))
 			{
 				getDamage(15);
@@ -171,10 +172,7 @@ namespace Mangos {
 
 		public void deadFunction()
 		{
-			if(life == 0)
-			{
-				SceneManager.LoadScene ("GameOver");
-			}
+			
 		}
 	}
 }

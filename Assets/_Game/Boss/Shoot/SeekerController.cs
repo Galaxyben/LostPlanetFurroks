@@ -21,7 +21,7 @@ public class SeekerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		rigi.velocity = Vector3.up * StartingForce.Evaluate (t) * Time.deltaTime * Velocidad + (objective.position - transform.position) / (objective.position - transform.position).magnitude * SeekerForce.Evaluate (t) * Time.deltaTime * Velocidad;
+		rigi.velocity = Vector3.up * StartingForce.Evaluate (t) * Time.deltaTime * Velocidad + (objective.position - transform.position).normalized * SeekerForce.Evaluate (t) * Time.deltaTime * Velocidad;
 		transform.LookAt (transform.position + rigi.velocity.normalized);
 		t += Time.deltaTime / 3f;
 	}

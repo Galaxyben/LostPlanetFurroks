@@ -47,13 +47,13 @@ namespace Mangos {
 			switch(waveNumber)
 			{
 			case 0:
-				for(int i = 0; i <= 12; i++)
+				for(int i = 0; i <= 11; i++)
 				{
 					Instantiate (Minion1.gameObject, selectorArr[i].gameObject.transform.position, Quaternion.identity);
 				}
 				break;
 			case 1:
-				for(int i = 0; i <= 12; i++)
+				for(int i = 0; i < 12; i++)
 				{
 					Instantiate (Minion2.gameObject, selectorArr[i].gameObject.transform.position, Quaternion.identity);
 				}
