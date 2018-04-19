@@ -1,0 +1,211 @@
+fileFormatVersion: 2
+guid: cf94c0b2849dd0043aaa53c4bd6ade87
+timeCreated: 1522861583
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Box007
+    100004: Box009
+    100006: Box010
+    100008: Box011
+    100010: Damper008
+    100012: Damper009
+    100014: Damper010
+    100016: Damper011
+    100018: Object009
+    100020: Object011
+    100022: Object012
+    100024: Object028
+    100026: Object029
+    100028: Object030
+    100030: Object031
+    100032: Object032
+    100034: Object033
+    100036: Object034
+    100038: Object036
+    100040: Object038
+    100042: Object040
+    100044: Object041
+    100046: Tube009
+    100048: Tube010
+    400000: //RootNode
+    400002: Box007
+    400004: Box009
+    400006: Box010
+    400008: Box011
+    400010: Damper008
+    400012: Damper009
+    400014: Damper010
+    400016: Damper011
+    400018: Object009
+    400020: Object011
+    400022: Object012
+    400024: Object028
+    400026: Object029
+    400028: Object030
+    400030: Object031
+    400032: Object032
+    400034: Object033
+    400036: Object034
+    400038: Object036
+    400040: Object038
+    400042: Object040
+    400044: Object041
+    400046: Tube009
+    400048: Tube010
+    2100000: No Name
+    2100002: tubo
+    2300000: Box007
+    2300002: Box009
+    2300004: Box010
+    2300006: Box011
+    2300008: Damper008
+    2300010: Damper009
+    2300012: Damper010
+    2300014: Damper011
+    2300016: Object009
+    2300018: Object011
+    2300020: Object012
+    2300022: Object028
+    2300024: Object029
+    2300026: Object030
+    2300028: Object031
+    2300030: Object032
+    2300032: Object033
+    2300034: Object034
+    2300036: Object036
+    2300038: Object038
+    2300040: Object040
+    2300042: Object041
+    2300044: Tube009
+    2300046: Tube010
+    3300000: Box007
+    3300002: Box009
+    3300004: Box010
+    3300006: Box011
+    3300008: Damper008
+    3300010: Damper009
+    3300012: Damper010
+    3300014: Damper011
+    3300016: Object009
+    3300018: Object011
+    3300020: Object012
+    3300022: Object028
+    3300024: Object029
+    3300026: Object030
+    3300028: Object031
+    3300030: Object032
+    3300032: Object033
+    3300034: Object034
+    3300036: Object036
+    3300038: Object038
+    3300040: Object040
+    3300042: Object041
+    3300044: Tube009
+    3300046: Tube010
+    4300000: Box007
+    4300002: Box009
+    4300004: Box010
+    4300006: Box011
+    4300008: Damper008
+    4300010: Damper009
+    4300012: Damper010
+    4300014: Damper011
+    4300016: Object009
+    4300018: Object011
+    4300020: Object012
+    4300022: Object028
+    4300024: Object029
+    4300026: Object030
+    4300028: Object031
+    4300030: Object032
+    4300032: Object033
+    4300034: Object034
+    4300036: Object036
+    4300038: Object038
+    4300040: Object040
+    4300042: Object041
+    4300044: Tube009
+    4300046: Tube010
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

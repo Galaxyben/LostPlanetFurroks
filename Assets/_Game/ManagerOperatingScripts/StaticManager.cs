@@ -18,6 +18,8 @@ namespace Mangos {
 		public static AppManager appManager;
 		public static InputManager inputManager;
 		public static GameManager gameManager;
-		public static AudioManager audioManager;
+		public static SoundManager soundManager;
+		public static PoolManager poolManager;
+		public static NaveScript playerShip;
 	}
 }

@@ -1,7 +1,11 @@
 fileFormatVersion: 2
 guid: d20196e7fc37d694bb6c09a1fe10f28a
 folderAsset: yes
+<<<<<<< HEAD
 timeCreated: 1524105276
+=======
+timeCreated: 1524008095
+>>>>>>> Player_y_boss
 licenseType: Free
 DefaultImporter:
   userData: 
