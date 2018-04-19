@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 namespace Mangos {
 	public class GameManager : MonoBehaviour {
 		public Mangos.GameState gameState = GameState.mainMenu;
+		public BossController bosses;
 		void Awake(){
 			StaticManager.gameManager = this;
 		}
@@ -14,12 +15,15 @@ namespace Mangos {
 		void Update(){
 			if(Mangos.StaticManager.playerShip.life <= 0)
 			{
-				StartCoroutine("GameOver");	
+				Invoke("GameOver", 3f);	
+			}
+			if(!bosses.gameObject.activeSelf)
+			{
+				Invoke("GameOver", 3f);
 			}
 		}
 		
-		IEnumerator GameOver(){
-			yield return new WaitForSeconds (2f);
+		void GameOver(){
 			SceneManager.LoadScene ("GameOver");
 		}
 	}

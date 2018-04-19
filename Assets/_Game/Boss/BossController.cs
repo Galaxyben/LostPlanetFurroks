@@ -37,6 +37,8 @@ public class BossController : MonoBehaviour {
 			ogFStar [i] = FireStarDelay [i];
 			ogFLaser [i] = FireLaserDelay [i];
 		}
+		
+		Mangos.StaticManager.gameManager.bosses = this;
 	}
 	
 	// Update is called once per frame
