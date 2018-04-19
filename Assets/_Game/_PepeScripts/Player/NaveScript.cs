@@ -151,18 +151,10 @@ namespace Mangos {
 			{
 				getDamage(10);
 			}
-			/*if(_col.gameObject.CompareTag("BossRay"))
-			{
-				getDamage(50);
-			}*/
 			if(_col.gameObject.CompareTag("BBullet"))
 			{
 				getDamage(15);
 			}
-			/*if(_col.gameObject.CompareTag("EBullet"))
-			{
-				getDamage(10);
-			}*/
 		}
 
 		public void getDamage(int DamageDealt) {
