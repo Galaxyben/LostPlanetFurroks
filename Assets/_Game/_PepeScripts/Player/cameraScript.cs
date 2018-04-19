@@ -6,6 +6,7 @@ using UnityEngine.UI;
 namespace Mangos {
 public class cameraScript : MonoBehaviour {
 		public Transform target;
+		[Range(0, 1)]
 		public float smoothSpeed = 0.3f;
 		public Vector3 offset;
 		public RectTransform pntrPos;
@@ -14,38 +15,40 @@ public class cameraScript : MonoBehaviour {
 	Vector3 desiredPosition;
 	Vector3 smoothedPosition;
 
+		Vector3 camRotation = Vector3.zero;
+
 		void Start(){
 			cam = GameObject.Find ("Main Camera").GetComponent<Camera> ();
 			pntrPos = GameObject.Find ("Pointer").GetComponent<RectTransform> ();
 		}
 
 		void Update() {
-			desiredPosition = target.position + offset;
-			//smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-			smoothedPosition = (desiredPosition - transform.position) * 0.9f * Time.deltaTime;
+			desiredPosition = target.TransformPoint (Vector3.back * 10);
+			transform.position = target.position;
+
+			/*desiredPosition = target.position;
+			//desiredPosition = target.TransformPoint(Vector3.back * 10);
+			smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+			smoothedPosition = (desiredPosition - transform.position) * smoothSpeed * Time.deltaTime;
 			transform.Translate(smoothedPosition * 1);
 			transform.LookAt (transform.position + smoothedPosition);
-			print(smoothedPosition);
 
-			/*if (pntrPos.position.x <= -920.0f) {
-				Quaternion camRotation = cam.transform.rotation;
+			if (pntrPos.localPosition.x <= -920.0f) {
 				camRotation.y -= camTurnSpeed;
-			} else if (pntrPos.position.x >= 920.0f) {
-				Quaternion camRotation = cam.transform.rotation;
+				Debug.Log("Aaaaaaaa");
+			} else if (pntrPos.localPosition.x >= 920.0f) {
 				camRotation.y += camTurnSpeed;
+				Debug.Log("Bbbbbbbbb");
 			}
 
-			if (pntrPos.position.y <= -520.0f) {
-				Quaternion camRotation = cam.transform.rotation;
+			if (pntrPos.localPosition.y <= -520.0f) {
 				camRotation.x += camTurnSpeed;
-			} else if (pntrPos.position.y >= 440.0f) {
-				Quaternion camRotation = cam.transform.rotation;
+				Debug.Log("Cccccccc");
+			} else if (pntrPos.localPosition.y >= 440.0f) {
 				camRotation.x -= camTurnSpeed;
-			}*/
-		}
-
-		public void camRotation(){
-
+				Debug.Log("Ddddddd");
+			}
+			transform.Rotate (camRotation * Time.deltaTime);*/
 		}
 	}
 }

@@ -33,7 +33,7 @@ namespace Mangos {
 				///--------SECCION MOVIMIENTO Y DISPARO PERSONAJE PRINCIPAL---------------
 				float Movement_H = Input.GetAxis ("Horizontal");
 				float Movement_V = Input.GetAxis ("Vertical");
-				if (Input.GetKeyDown (KeyCode.Q)) {
+				if ((Input.GetKeyDown (KeyCode.Q)) || (Input.GetKeyDown (KeyCode.JoystickButton2))) {
 					StaticManager.playerShip.Dash (Movement_H, Movement_V);
 				}
 				StaticManager.playerShip.Movement (Movement_H, Movement_V);

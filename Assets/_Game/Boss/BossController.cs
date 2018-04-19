@@ -58,8 +58,6 @@ public class BossController : MonoBehaviour {
 		if(centro.HP <= 0 && centro.isAlive)
 			CenterDies();
 
-		print(anillo.HP);
-
 		switch (level) {
 		case 0:
 			break;

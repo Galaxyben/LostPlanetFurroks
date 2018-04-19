@@ -25,6 +25,9 @@ namespace Mangos {
 		private Vector3 pntrPos;
 		private Vector3 mousePos;
 		private GameObject PointerPrefab;
+		public Vector3 offset;
+		float xRotate, yRotate;
+		Vector3 temp1, temp2;
 
 		void Start () {
 			PointerPrefab = GameObject.Find ("Pointer");
@@ -34,6 +37,8 @@ namespace Mangos {
 			Mangos.PoolManager.SetPoolLimit (Bullet.gameObject, 100);
 			Mangos.PoolManager.PreSpawn (HMBullet.gameObject, 10);
 			Mangos.PoolManager.SetPoolLimit (HMBullet.gameObject, 100);
+			offset = PointerPrefab.transform.position - transform.position;
+			offset.z = 0;
 			life = 100;
 			bulletvel = 50.0f;
 			movementSpeed = 35.0f;
@@ -81,28 +86,20 @@ namespace Mangos {
 				}
 		}
 
-		public Vector2 rotationDegrees = new Vector2(45,45);
-
 		public void Movement(float xAxis, float yAxis){
-			Vector3 direction = new Vector3 (xAxis, yAxis, 1.0f);
-			Vector3 FDir = new Vector3 (xAxis, yAxis, 1.0f);
-			//transform.position += direction * movementSpeed * Time.deltaTime;
+			Vector3 direction = new Vector3 (xAxis * -1, yAxis, 0f) + transform.forward;
+			direction.Normalize ();
 			transform.Translate (direction * movementSpeed * Time.deltaTime, Space.Self);
-			//transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (FDir), Mathf.Deg2Rad * 70.0f);
-			//transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (aim), Mathf.Deg2Rad * 100.0f);
-			//transform.rotation = Quaternion.RotateTowards (transform.rotation, Quaternion.LookRotation (pntrPos), Mathf.Deg2Rad * 100.0f);
 
-
-			float normalizedXPosition = Mathf.Lerp(-1,1, Mathf.InverseLerp (-960, 960, PointerPrefab.transform.localPosition.x) );
-			float normalizedYPosition = Mathf.Lerp(-1,1, Mathf.InverseLerp (-540, 540, PointerPrefab.transform.localPosition.y) );
-			transform.rotation = Quaternion.Euler (new Vector3 (-1*  normalizedYPosition * rotationDegrees.y,normalizedXPosition * rotationDegrees.x, 0));
+			transform.position += direction * movementSpeed * Time.deltaTime;
 		}
 
 		public void pointerMovement(float xAxis, float yAxis)	{
 			Vector3 pointerPos = new Vector3 (xAxis * 960, yAxis * 540, 0.0f);
-			//Vector3 pointerPos = new Vector3 (xAxis, yAxis, 0.0f);
-			//PointerPrefab.transform.position += pointerPos * pointerVel * Time.deltaTime;
 			PointerPrefab.transform.localPosition = Vector3.Lerp(PointerPrefab.transform.localPosition, pointerPos, Time.deltaTime*3f);
+			Vector3 lookat = transform.TransformDirection (new Vector3 (xAxis, yAxis, 0f));
+			transform.LookAt (lookat);
+
 		}
 		
 		public void Shoot(){
@@ -111,6 +108,7 @@ namespace Mangos {
 					bulletvel = 100.0f;
 					Transform TypicBullet = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
 					TypicBullet.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
+
 					break;
 				case 2://Dual Gun Shot
 					bulletvel = 130.0f;
