@@ -14,7 +14,7 @@ namespace Mangos {
 		public Rigidbody HMBullet;
 		private int life;
 		private float bulletvel;
-		private float movementSpeed;
+		public float movementSpeed;
 		private float impulse = 15.0f;
 		public int gunType;
 		public Rigidbody rigi;
@@ -27,6 +27,7 @@ namespace Mangos {
 		private GameObject PointerPrefab;
 		public Vector3 offset;
 		float xRotate, yRotate;
+		float ogSpeed;
 		Vector3 temp1, temp2;
 
 		void Start () {
@@ -41,8 +42,8 @@ namespace Mangos {
 			offset.z = 0;
 			life = 100;
 			bulletvel = 50.0f;
-			movementSpeed = 35.0f;
 			gunType = 1;
+			ogSpeed = movementSpeed;
 		}
 
 		void Awake(){
@@ -61,9 +62,9 @@ namespace Mangos {
 			}
 
 			if (Input.GetKeyDown (KeyCode.LeftShift)) {
-				movementSpeed = movementSpeed * 2;
+				movementSpeed = ogSpeed * 2;
 			} else {
-				movementSpeed = 45.0f;
+				movementSpeed = ogSpeed;
 			}
 		}
 
@@ -87,50 +88,52 @@ namespace Mangos {
 		}
 
 		public void Movement(float xAxis, float yAxis){
-			Vector3 direction = new Vector3 (xAxis * -1, yAxis, 0f) + transform.forward;
-			direction.Normalize ();
-			transform.Translate (direction * movementSpeed * Time.deltaTime, Space.Self);
-
+			//Vector3 direction = (new Vector3 (xAxis, yAxis, 0f)/50f) + transform.forward;
+			Vector3 direction = transform.forward + Vector3.Cross(transform.forward, Vector3.down) * xAxis/40 + Vector3.up * yAxis/40;
+			rigi.velocity = direction.normalized * movementSpeed * Time.deltaTime;
+			transform.LookAt(transform.position + rigi.velocity);
 
 
 			//transform.position += direction * movementSpeed * Time.deltaTime;
 		}
 
 		public void pointerMovement(float xAxis, float yAxis)	{
-			Vector3 pointerPos = new Vector3 (xAxis * 960, yAxis * 540, 0.0f);
+			/*Vector3 pointerPos = new Vector3 (xAxis * 960, yAxis * 540, 0.0f);
 			PointerPrefab.transform.localPosition = Vector3.Lerp(PointerPrefab.transform.localPosition, pointerPos, Time.deltaTime*3f);
 
-
+			*/
 
 			/*Vector3 lookat = transform.TransformDirection (new Vector3 (xAxis, yAxis, 0f));
 			transform.LookAt (lookat);*/
 		}
 		
 		public void Shoot(){
-				switch (gunType) {
-			case 1: //First Typical Gun
-				bulletvel = 100.0f;
-				Transform TypicBullet = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
-				TypicBullet.gameObject.GetComponent<Rigidbody> ().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
-				StaticManager.soundManager.playerSounds (1);
+			
+			//print(transform.forward);
+			switch (gunType) {
+				case 1: //First Typical Gun
+					bulletvel = 100.0f;
+					Transform TypicBullet = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, transform.rotation);
+					TypicBullet.gameObject.GetComponent<Rigidbody> ().AddForce (transform.forward * bulletvel, ForceMode.Impulse);
+					StaticManager.soundManager.playerSounds (1);
 					break;
 				case 2://Dual Gun Shot
 					bulletvel = 130.0f;
-					Transform DBullet1 = Mangos.PoolManager.Spawn (Bullet.gameObject, DGun1.transform.position, DGun1.transform.rotation);
+					Transform DBullet1 = Mangos.PoolManager.Spawn (Bullet.gameObject, DGun1.transform.position, transform.rotation);
 					DBullet1.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
-					Transform DBullet2 = Mangos.PoolManager.Spawn (Bullet.gameObject, DGun2.transform.position, DGun2.transform.rotation);
+					Transform DBullet2 = Mangos.PoolManager.Spawn (Bullet.gameObject, DGun2.transform.position, transform.rotation);
 					DBullet2.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 				StaticManager.soundManager.playerSounds (3);
 					break;
 				case 3://Cannon Shot
 					bulletvel = 80.0f;
-					Transform newBulletCS = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
+					Transform newBulletCS = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, transform.rotation);
 					newBulletCS.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 				StaticManager.soundManager.playerSounds (2);
 					break;
 				case 4://Homming Shot
 					bulletvel = 115.0f;
-					Transform HommingBullet = Mangos.PoolManager.Spawn (HMBullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
+					Transform HommingBullet = Mangos.PoolManager.Spawn (HMBullet.gameObject, ShootingPlace.transform.position, transform.rotation);
 					HommingBullet.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 				StaticManager.soundManager.playerSounds (1);
 					break;
