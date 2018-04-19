@@ -13,7 +13,7 @@ namespace Mangos {
 		public GameObject DGun2;
 		public Rigidbody Bullet;
 		public Rigidbody HMBullet;
-		public int life;
+		public float life;
 		private float bulletvel;
 		public float movementSpeed;
 		private float impulse = 15.0f;
@@ -155,6 +155,10 @@ namespace Mangos {
 			{
 				getDamage(15);
 			}
+		}
+		
+		void OnTriggerEnter(Collider _col){
+			print("trigger");
 		}
 
 		public void getDamage(int DamageDealt) {
