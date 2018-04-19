@@ -91,24 +91,28 @@ namespace Mangos {
 			direction.Normalize ();
 			transform.Translate (direction * movementSpeed * Time.deltaTime, Space.Self);
 
-			transform.position += direction * movementSpeed * Time.deltaTime;
+
+
+			//transform.position += direction * movementSpeed * Time.deltaTime;
 		}
 
 		public void pointerMovement(float xAxis, float yAxis)	{
 			Vector3 pointerPos = new Vector3 (xAxis * 960, yAxis * 540, 0.0f);
 			PointerPrefab.transform.localPosition = Vector3.Lerp(PointerPrefab.transform.localPosition, pointerPos, Time.deltaTime*3f);
-			Vector3 lookat = transform.TransformDirection (new Vector3 (xAxis, yAxis, 0f));
-			transform.LookAt (lookat);
 
+
+
+			/*Vector3 lookat = transform.TransformDirection (new Vector3 (xAxis, yAxis, 0f));
+			transform.LookAt (lookat);*/
 		}
 		
 		public void Shoot(){
 				switch (gunType) {
-				case 1: //First Typical Gun
-					bulletvel = 100.0f;
-					Transform TypicBullet = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
-					TypicBullet.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
-
+			case 1: //First Typical Gun
+				bulletvel = 100.0f;
+				Transform TypicBullet = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
+				TypicBullet.gameObject.GetComponent<Rigidbody> ().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
+				StaticManager.soundManager.playerSounds (1);
 					break;
 				case 2://Dual Gun Shot
 					bulletvel = 130.0f;
@@ -116,16 +120,19 @@ namespace Mangos {
 					DBullet1.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
 					Transform DBullet2 = Mangos.PoolManager.Spawn (Bullet.gameObject, DGun2.transform.position, DGun2.transform.rotation);
 					DBullet2.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
+				StaticManager.soundManager.playerSounds (3);
 					break;
 				case 3://Cannon Shot
 					bulletvel = 80.0f;
 					Transform newBulletCS = Mangos.PoolManager.Spawn (Bullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
 					newBulletCS.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
+				StaticManager.soundManager.playerSounds (2);
 					break;
 				case 4://Homming Shot
 					bulletvel = 115.0f;
 					Transform HommingBullet = Mangos.PoolManager.Spawn (HMBullet.gameObject, ShootingPlace.transform.position, ShootingPlace.transform.rotation);
 					HommingBullet.gameObject.GetComponent<Rigidbody>().AddForce (transform.forward * bulletvel, ForceMode.VelocityChange);
+				StaticManager.soundManager.playerSounds (1);
 					break;
 				default:
 					gunType = 1;
@@ -133,8 +140,29 @@ namespace Mangos {
 				}
 		}
 
-		public void getDamage() {
-			
+		void OnCollisionEnter (Collision _col)
+		{
+			if(_col.gameObject.CompareTag("EBullet1"))
+			{
+				getDamage(5);
+			}
+			if(_col.gameObject.CompareTag("BossRay"))
+			{
+				getDamage(50);
+			}
+			if(_col.gameObject.CompareTag("BBullet"))
+			{
+				getDamage(15);
+			}
+			if(_col.gameObject.CompareTag("EBullet1"))
+			{
+				getDamage(10);
+			}
+		}
+
+		public void getDamage(int DamageDealt) {
+			life -= DamageDealt;
+			StaticManager.soundManager.generalSounds (1);
 		}
 	}
 }

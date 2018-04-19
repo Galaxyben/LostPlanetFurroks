@@ -4,21 +4,26 @@ using UnityEngine;
 
 namespace Mangos {
 	public class SoundManager : MonoBehaviour {
-		public AudioSource AS;
-		public AudioClip laserBasic;
-		public AudioClip laserBazooka;
-		public AudioClip laserDualGun;
-		public AudioClip ELaser1;
-		public AudioClip ELaser2;
-		public AudioClip ELaser3;
-		public AudioClip BossBasicMisil;
-		public AudioClip BossPrepRay;
-		public AudioClip BossMegaRay;
-		public AudioClip pickUpSound;
-		public AudioClip hit1;
+		static public AudioSource AS;
+		static public AudioClip laserBasic;
+		static public AudioClip laserBazooka;
+		static public AudioClip laserDualGun;
+		static public AudioClip ELaser1;
+		static public AudioClip ELaser2;
+		static public AudioClip ELaser3;
+		static public AudioClip BossBasicMisil;
+		static public AudioClip BossPrepRay;
+		static public AudioClip BossMegaRay;
+		static public AudioClip pickUpSound;
+		static public AudioClip hit1;
+		static public AudioClip playerAlert;
 
 		void Start () {
 			AS = GetComponent<AudioSource> ();
+		}
+
+		void Awake(){
+			StaticManager.soundManager = this;
 		}
 
 		public void playerSounds(int soundSelect)
@@ -86,6 +91,9 @@ namespace Mangos {
 				break;
 			case 2:
 				AS.PlayOneShot (pickUpSound);
+				break;
+			case 3:
+				//AS.Play (playerAlert);
 				break;
 			default:
 				AS.PlayOneShot (hit1);
