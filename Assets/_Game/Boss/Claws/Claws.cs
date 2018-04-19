@@ -15,7 +15,7 @@ public class Claws : MonoBehaviour {
 	bool isStartingLasser;
 	bool fireAhead;
 	public float t;
-	bool vulnerable;
+	bool vulnerable = true;
 	public float invulnerableTime;
 	public float HP;
 	public bool isAlive = true;
@@ -72,8 +72,10 @@ public class Claws : MonoBehaviour {
 	}
 
 	public void GetDamaged(){
+		print("claw damaged");
 		if (vulnerable && isAlive) {
 			StartCoroutine ("DamageStop");
+			HP -= 1;
 		}
 	}
 

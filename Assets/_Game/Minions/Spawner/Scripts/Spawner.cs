@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Mangos {
 	public class Spawner : MonoBehaviour {
-		public Rigidbody EBullet;
+		public GameObject EBullet;
 		//public Rigidbody BBullet;
-		public Rigidbody Minion1;
-		public Rigidbody Minion2;
+		public GameObject Minion1;
+		public GameObject Minion2;
 		public int spawnerNumber = 12;
 		public GameObject[] selectorArr;
 		public GameObject selector;
@@ -20,17 +20,17 @@ namespace Mangos {
 
 			//selectorArr = new GameObject[spawnerNumber];
 
-			Mangos.PoolManager.PreSpawn (EBullet.gameObject, 5);
-			Mangos.PoolManager.SetPoolLimit (EBullet.gameObject, 100);
+			Mangos.PoolManager.PreSpawn (EBullet, 5);
+			Mangos.PoolManager.SetPoolLimit (EBullet, 100);
 
 			/*Mangos.PoolManager.PreSpawn (BBullet.gameObject, 25);
 			Mangos.PoolManager.SetPoolLimit (BBullet.gameObject, 300);*/
 
-			Mangos.PoolManager.PreSpawn (Minion1.gameObject, 1);
-			Mangos.PoolManager.SetPoolLimit (Minion1.gameObject, 10);
+			Mangos.PoolManager.PreSpawn (Minion1, 1);
+			Mangos.PoolManager.SetPoolLimit (Minion1, 10);
 
-			Mangos.PoolManager.PreSpawn (Minion2.gameObject, 1);
-			Mangos.PoolManager.SetPoolLimit (Minion2.gameObject, 5);
+			Mangos.PoolManager.PreSpawn (Minion2, 1);
+			Mangos.PoolManager.SetPoolLimit (Minion2, 5);
 		}
 		
 
@@ -49,13 +49,13 @@ namespace Mangos {
 			case 0:
 				for(int i = 0; i <= 11; i++)
 				{
-					Instantiate (Minion1.gameObject, selectorArr[i].gameObject.transform.position, Quaternion.identity);
+					Instantiate (Minion1, selectorArr[i].gameObject.transform.position, Quaternion.identity);
 				}
 				break;
 			case 1:
 				for(int i = 0; i < 12; i++)
 				{
-					Instantiate (Minion2.gameObject, selectorArr[i].gameObject.transform.position, Quaternion.identity);
+					Instantiate (Minion2, selectorArr[i].gameObject.transform.position, Quaternion.identity);
 				}
 				break;
 			default:

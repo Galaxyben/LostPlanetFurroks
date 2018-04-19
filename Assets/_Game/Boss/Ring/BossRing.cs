@@ -6,6 +6,7 @@ public class BossRing : MonoBehaviour {
 
 	public Rigidbody ringRigi;
 	public Rigidbody centerRigi;
+	Material mat;
 	public float RotationSpeed;
 	public float RotationAccel;
 	public float angDragMag;
@@ -20,13 +21,16 @@ public class BossRing : MonoBehaviour {
 	public float HP;
 	public bool isAlive = true;
 	public float invulerableTime;
-	bool vulnerable = true;
+	bool vulnerable = true, fadeAway;
+	float t;
+	public GameObject explosionParent;
 	// Use this for initialization
 	void Start () {
 		lookinAt = objective.position;
 		generalDirection = GameObject.Find ("RingParent").transform;
 		goingTo = objective.transform.position;
 		centerRigi = GetComponent<Rigidbody> ();
+		mat = ringRigi.gameObject.GetComponentInChildren<MeshRenderer>().material;
 		//rigi.AddTorque (0.0f, RotationSpeed, 0.0f, ForceMode.Impulse);
 	}
 	
@@ -53,11 +57,19 @@ public class BossRing : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.D))
 			GetDamaged ();
 		*/
+		
+		if(Input.GetKeyDown(KeyCode.X)){
+			StartCoroutine("Explode");
+		}
 		angDragMag = ringRigi.angularVelocity.magnitude;
 
 		ringRigi.gameObject.transform.position = gameObject.transform.position;
 		
-		
+		if (fadeAway)
+		{
+			t += Time.deltaTime/2f;
+			mat.color = Color.Lerp(Color.white, new Color (1, 1, 1, 0), t);
+		}
 	}
 		
 	
@@ -150,5 +162,22 @@ public class BossRing : MonoBehaviour {
 
 	public void Die(){
 		RotationSpeed = 1;
+		StartCoroutine("Explode");
+		mat.SetFloat("_Mode", 2); 
+		fadeAway = true;
+	}
+
+
+	IEnumerator Explode(){
+		for(int i = 0; i < explosionParent.GetComponentsInChildren<ParticleSystem>().Length; i++)
+		{
+			explosionParent.GetComponentsInChildren<ParticleSystem>()[i].Play();
+			yield return new WaitForSeconds(0.5f);
+		}
+		yield return new WaitForSeconds (0.2f);
+		for(int i = 0; i < explosionParent.GetComponentsInChildren<ParticleSystem>().Length; i++)
+		{
+			explosionParent.GetComponentsInChildren<ParticleSystem>()[i].Stop();
+		}
 	}
 }

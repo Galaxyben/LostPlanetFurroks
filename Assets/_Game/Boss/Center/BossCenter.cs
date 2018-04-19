@@ -16,7 +16,7 @@ public class BossCenter : MonoBehaviour
 	Vector3 goingTo;
 	public Transform objective;
 	Rigidbody rigi;
-	bool vulnerable;
+	bool vulnerable = true;
 	public float invulnerableTime;
 	public float HP;
 	public bool isAlive = true;
@@ -34,7 +34,7 @@ public class BossCenter : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.E))
-			FireSeekers ();
+			GetDamaged ();
 	}
 
 	public void Move(bool _f){
@@ -78,6 +78,7 @@ public class BossCenter : MonoBehaviour
 	public void GetDamaged(){
 		if (vulnerable && isAlive) {
 			StartCoroutine ("DamageStop");
+			HP -= 1;
 		}
 	}
 
