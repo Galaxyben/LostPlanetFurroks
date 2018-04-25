@@ -47,6 +47,11 @@ public class MainMenu : MonoBehaviour {
 		optionPanel.SetActive (false);
 	}
 
+	public void Credits()
+	{
+		SceneManager.LoadScene ("WinScene", LoadSceneMode.Single);
+	}
+
 	public void Salir(){
 		StartCoroutine ("Exit");
 	}
@@ -56,7 +61,7 @@ public class MainMenu : MonoBehaviour {
 		#if UNITY_EDITOR
 		UnityEditor.EditorApplication.isPlaying = false;
 		#else
-		Application.Salir();
+		Application.Quit();
 		#endif
 	}
 }
